@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Un Regalo Mágico para Ti</title>
+    <title>Un Ramo Mágico para Ti</title>
     
-    <!-- fuente Winky Rough -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Winky+Rough:wght@700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configuracion Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -30,7 +27,6 @@
     
     <canvas id="canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
 
-    <!-- Contenedor para los mensajes secuenciales -->
     <div id="message" 
          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
                 w-11/12 md:w-auto bg-white/80 backdrop-blur-lg shadow-2xl p-6 rounded-xl
@@ -38,7 +34,6 @@
                 opacity-0 transition-opacity duration-1000 ease-in-out">
     </div>
 
-    <!-- Mensaje final -->
     <div id="finalMessage" 
          class="absolute top-[8%] left-1/2 -translate-x-1/2 
                 w-11/12 md:w-auto bg-indigo-900/70 backdrop-blur-lg shadow-2xl p-6 rounded-xl
@@ -46,7 +41,6 @@
                 opacity-0 transition-opacity duration-1000 ease-in-out">
     </div>
     
-    <!-- La firma -->
     <div id="signature"
          class="absolute bottom-5 right-6
                 text-xl text-white/80
@@ -58,18 +52,21 @@
         const ctx = canvas.getContext('2d');
         const messageEl = document.getElementById('message');
         const finalMessageEl = document.getElementById('finalMessage');
-        const signatureEl = document.getElementById('signature'); // 2. Referencia a la firma
+        const signatureEl = document.getElementById('signature');
+
+        let stars = [];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            if (stars.length > 0) createStars();
         }
 
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        resizeCanvas(); 
 
         let progress = 0;
-        let flowerComplete = false;
+        let bouquetComplete = false;
         let puedeCrecer = false;
         let currentMessageIndex = 0;
 
@@ -81,7 +78,7 @@
             "Siendo ingeniero de sistemas, mi creatividad no tiene límites...",
             "...para demostrar lo mucho que te quiero.",
             "Espero que disfrutes este detalle tanto como yo disfruté creándolo para ti.",
-            "Y ahora, observa la magia..."
+            "Y ahora, un pequeño jardín para ti..."
         ];
 
         function showNextMessage() {
@@ -102,14 +99,14 @@
             }
         }
 
-        let stars = [];
         function createStars() {
-            for (let i = 0; i < 100; i++) {
+            stars = [];
+            for (let i = 0; i < 150; i++) {
                 stars.push({
                     x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height * 0.7,
+                    y: Math.random() * canvas.height * 0.8,
                     radius: Math.random() * 1.5,
-                    opacity: Math.random() * 0.5 + 0.5
+                    opacity: Math.random() * 0.6 + 0.4
                 });
             }
         }
@@ -142,59 +139,79 @@
         function drawGrass(p) {
             const grassProgress = puedeCrecer ? p : 0;
             ctx.fillStyle = `rgb(34, 139, 34)`;
-            ctx.fillRect(0, canvas.height * 0.8, canvas.width, canvas.height * 0.2 * grassProgress);
+            ctx.fillRect(0, canvas.height * 0.85, canvas.width, canvas.height * 0.15 * grassProgress);
         }
-        
-        function drawFlower(p, sway) {
-            const centerX = canvas.width / 2 + sway;
-            const centerY = canvas.height * 0.4;
-            const radius = Math.min(canvas.width, canvas.height) / 9;
 
-            const stemProgress = Math.min(1, p / 0.3);
-            if (stemProgress > 0) {
+        function drawFlower(x, y, radius, p) {
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2;
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
                 ctx.beginPath();
-                ctx.moveTo(canvas.width / 2, canvas.height * 0.8);
-                ctx.lineTo(canvas.width / 2, canvas.height * 0.8 - (canvas.height * 0.4 * stemProgress));
-                ctx.strokeStyle = `rgb(0, 128, 0)`;
-                ctx.lineWidth = canvas.width * 0.01;
-                ctx.stroke();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(radius * 0.5, -radius * 0.7, radius * p, 0);
+                ctx.quadraticCurveTo(radius * 0.5, radius * 0.7, 0, 0);
+                ctx.fillStyle = `rgba(255, 204, 0, 1)`;
+                ctx.fill();
+                ctx.restore();
             }
 
-            const petalProgress = Math.max(0, (p - 0.3) / 0.6);
-            if(petalProgress > 0) {
-                 for (let i = 0; i < 5; i++) {
-                    const angle = (i / 5) * Math.PI * 2;
-                    ctx.save();
-                    ctx.translate(centerX, centerY);
-                    ctx.rotate(angle);
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.quadraticCurveTo(radius * 0.5, -radius * 0.7, radius * petalProgress, 0);
-                    ctx.quadraticCurveTo(radius * 0.5, radius * 0.7, 0, 0);
-                    ctx.fillStyle = `rgba(255, 204, 0, 1)`;
-                    ctx.fill();
-                    ctx.restore();
-                }
-            }
-
-            const centerProgress = Math.max(0, (p - 0.9) / 0.1);
+            const centerProgress = Math.max(0, (p - 0.8) / 0.2);
             if (centerProgress > 0) {
                 ctx.beginPath();
-                ctx.arc(centerX, centerY, (radius / 4) * centerProgress, 0, Math.PI * 2);
+                ctx.arc(x, y, (radius / 4) * centerProgress, 0, Math.PI * 2);
                 ctx.fillStyle = `rgb(139, 69, 19)`;
                 ctx.fill();
             }
         }
 
+        function drawCurvedStem(start, end, p) {
+            const controlX = start.x - (start.x - end.x) * 0.5;
+            const controlY = start.y + (end.y - start.y) * 0.2;
+            
+            const midX = (1-p)*(1-p)*start.x + 2*(1-p)*p*controlX + p*p*end.x;
+            const midY = (1-p)*(1-p)*start.y + 2*(1-p)*p*controlY + p*p*end.y;
+
+            ctx.beginPath();
+            ctx.moveTo(start.x, start.y);
+            ctx.quadraticCurveTo(controlX, controlY, midX, midY);
+
+            ctx.strokeStyle = `rgb(0, 128, 0)`;
+            ctx.lineWidth = canvas.width * 0.008;
+            ctx.stroke();
+        }
+
+        function drawBouquet(p, sway) {
+            const basePoint = { x: canvas.width / 2, y: canvas.height * 0.95 };
+            
+            const flowers = [
+                { x: canvas.width * 0.5, y: canvas.height * 0.45, radius: canvas.width / 15, start: 0.0, end: 0.7 },
+                { x: canvas.width * 0.4, y: canvas.height * 0.55, radius: canvas.width / 18, start: 0.2, end: 0.9 },
+                { x: canvas.width * 0.6, y: canvas.height * 0.5, radius: canvas.width / 17, start: 0.4, end: 1.0 }
+            ];
+            
+            flowers.forEach(flower => {
+                const flowerProgress = Math.max(0, Math.min(1, (p - flower.start) / (flower.end - flower.start)));
+                
+                if (flowerProgress > 0) {
+                    const flowerBase = { x: flower.x + sway, y: flower.y + flower.radius * 0.5 };
+                    drawCurvedStem(flowerBase, basePoint, flowerProgress);
+                    drawFlower(flower.x + sway, flower.y, flower.radius, flowerProgress);
+                }
+            });
+        }
+
         function draw() {
+            requestAnimationFrame(draw);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             if (puedeCrecer && progress < 1) {
-                progress += 0.004;
+                progress += 0.003;
             }
 
             let sway = 0;
-            if (flowerComplete) {
+            if (bouquetComplete) {
                 sway = Math.sin(Date.now() * 0.001) * (canvas.width * 0.01);
             }
 
@@ -202,22 +219,20 @@
             drawGrass(progress);
             
             if(puedeCrecer) {
-                drawFlower(progress, sway);
+                drawBouquet(progress, sway);
             }
             
-            if (progress >= 1 && !flowerComplete) {
-                flowerComplete = true;
-                finalMessageEl.textContent = "¡Feliz día! Te regalo esta flor amarilla";
+            if (progress >= 1 && !bouquetComplete) {
+                bouquetComplete = true;
+                finalMessageEl.textContent = "Un ramo de flores para ti";
                 finalMessageEl.classList.remove('opacity-0');
                 finalMessageEl.classList.add('animate-pulse');
                 
                 setTimeout(() => {
                     signatureEl.textContent = "Hecho por Andres el Ing";
                     signatureEl.classList.remove('opacity-0');
-                }, 1500); // 1.5 segundos después
+                }, 1500);
             }
-
-            requestAnimationFrame(draw);
         }
 
         showNextMessage();
