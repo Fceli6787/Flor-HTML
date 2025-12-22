@@ -1,759 +1,245 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Un Jardín de Amor para Ti</title>
-    <meta name="description" content="Un regalo especial con amor cristiano - Cantares 4:3">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-        rel="stylesheet">
-
+    <title>Algo especial para ti</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gochi+Hand&family=Lora:ital@1&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Cormorant Garamond', serif;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+            background-color: #fdf5e6;
+            font-family: 'Patrick Hand', cursive;
+            color: #4a4a4a;
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 30%, #4a1c1c 60%, #1a0a0a 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
 
-        #canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .sketch-container {
+            background: #ffffff;
             width: 100%;
-            height: 100%;
-        }
-
-        /* Overlay con patrón decorativo sutil */
-        .overlay-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                radial-gradient(circle at 20% 80%, rgba(220, 53, 69, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 193, 7, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Pétalos flotantes decorativos */
-        .floating-petals {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .petal {
-            position: absolute;
-            width: 15px;
-            height: 20px;
-            background: linear-gradient(135deg, #c0392b, #e74c3c);
-            border-radius: 50% 0 50% 50%;
-            opacity: 0;
-            animation: floatPetal 12s linear infinite;
-            box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
-        }
-
-        @keyframes floatPetal {
-            0% {
-                transform: translateY(-20px) rotate(0deg) scale(0.5);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.7;
-            }
-
-            90% {
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: translateY(100vh) rotate(720deg) scale(0.3);
-                opacity: 0;
-            }
-        }
-
-        /* Caja de mensajes principal */
-        #message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 650px;
-            background: linear-gradient(145deg,
-                    rgba(45, 21, 21, 0.95) 0%,
-                    rgba(74, 28, 28, 0.9) 50%,
-                    rgba(45, 21, 21, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(220, 53, 69, 0.4);
-            box-shadow:
-                0 25px 60px rgba(0, 0, 0, 0.5),
-                0 0 100px rgba(220, 53, 69, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            padding: 2.5rem 2rem;
-            border-radius: 20px;
+            max-width: 550px;
+            padding: 35px 25px;
+            border: 2px solid #5d4037;
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            box-shadow: 10px 10px 0px #d4a5a5;
             text-align: center;
-            opacity: 0;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
-        }
-
-        #message::before {
-            content: '✞';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.5rem;
-            color: rgba(255, 193, 7, 0.8);
-            text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
-        }
-
-        #message .message-text {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 400;
-            color: #f5e6e0;
-            line-height: 1.6;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Caja del versículo final */
-        #finalMessage {
-            position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 800px;
-            background: linear-gradient(145deg,
-                    rgba(26, 10, 10, 0.97) 0%,
-                    rgba(74, 28, 28, 0.95) 50%,
-                    rgba(26, 10, 10, 0.97) 100%);
-            backdrop-filter: blur(25px);
-            border: 3px solid;
-            border-image: linear-gradient(135deg, #c0392b, #ffc107, #c0392b) 1;
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.6),
-                0 0 150px rgba(220, 53, 69, 0.2),
-                inset 0 0 60px rgba(220, 53, 69, 0.05);
-            padding: 2rem 2.5rem;
-            border-radius: 25px;
-            text-align: center;
-            opacity: 0;
-            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
-        }
-
-        #finalMessage .verse-reference {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            color: #ffc107;
-            margin-bottom: 1rem;
-            text-shadow:
-                0 0 30px rgba(255, 193, 7, 0.5),
-                0 2px 4px rgba(0, 0, 0, 0.3);
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.8;
-                text-shadow: 0 0 40px rgba(255, 193, 7, 0.8);
-            }
-        }
-
-        #finalMessage .verse-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.1rem, 3vw, 1.6rem);
-            font-style: italic;
-            font-weight: 400;
-            color: #f5e6e0;
-            line-height: 1.8;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             position: relative;
-            padding: 0 1rem;
         }
 
-        #finalMessage .verse-text::before,
-        #finalMessage .verse-text::after {
+        h1 {
+            font-family: 'Gochi Hand', cursive;
             font-size: 2.5rem;
-            color: rgba(220, 53, 69, 0.5);
-            position: absolute;
+            color: #d4a5a5;
+            margin-bottom: 10px;
         }
 
-        #finalMessage .verse-text::before {
-            content: '❝';
-            top: -15px;
-            left: -10px;
+        .intro { font-size: 1.2rem; margin-bottom: 25px; }
+
+        /* Cuadrícula para que quepan muchas emociones */
+        .grid-emociones {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        #finalMessage .verse-text::after {
-            content: '❞';
-            bottom: -25px;
-            right: -10px;
+        .btn-custom {
+            background: none;
+            border: 2px solid #5d4037;
+            padding: 10px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 8px 4px 10px 5px;
+            transition: 0.2s;
+            color: #5d4037;
         }
 
-        #finalMessage .scarlet-highlight {
-            color: #dc3545;
-            font-weight: 600;
-            text-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+        .btn-custom:hover {
+            background: #fff0f0;
+            transform: scale(1.02);
+            box-shadow: 2px 2px 0px #d4a5a5;
         }
 
-        #finalMessage .pomegranate-highlight {
-            color: #e875a0;
-            font-weight: 600;
-            text-shadow: 0 0 15px rgba(232, 117, 160, 0.5);
+        .btn-main {
+            background: #d4a5a5;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.4rem;
+            width: auto;
         }
 
-        /* Decoración floral del versículo */
-        .verse-decoration {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards;
-            animation-delay: 2s;
+        .verse-area {
+            margin-top: 15px;
+            padding: 20px;
+            border-top: 2px dashed #f0ede5;
+            animation: fadeIn 0.6s ease;
         }
 
-        .verse-decoration span {
-            font-size: 1.5rem;
-            animation: gentleBounce 2s ease-in-out infinite;
+        .verse-text {
+            font-family: 'Lora', serif;
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        .verse-decoration span:nth-child(1) {
-            animation-delay: 0s;
+        .verse-ref {
+            font-weight: bold;
+            color: #d4a5a5;
+            letter-spacing: 1px;
         }
 
-        .verse-decoration span:nth-child(2) {
-            animation-delay: 0.2s;
+        .version-label {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #888;
         }
 
-        .verse-decoration span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+        .version-label span { cursor: pointer; padding: 0 5px; }
+        .version-label span.active { color: #d4a5a5; font-weight: bold; text-decoration: underline; }
 
-        .verse-decoration span:nth-child(4) {
-            animation-delay: 0.6s;
-        }
+        .hidden { display: none; }
+        .heart { color: #d4a5a5; font-size: 1.5rem; margin-top: 15px; }
 
-        .verse-decoration span:nth-child(5) {
-            animation-delay: 0.8s;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes gentleBounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Firma */
-        #signature {
-            position: absolute;
-            bottom: 20px;
-            right: 25px;
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.2rem, 3vw, 1.6rem);
-            color: rgba(255, 193, 7, 0.8);
-            opacity: 0;
-            transition: all 1s ease-out;
-            z-index: 10;
-            text-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
-        }
-
-        /* Estrellas brillantes adicionales */
-        .divine-light {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #ffc107;
-            border-radius: 50%;
-            box-shadow:
-                0 0 10px #ffc107,
-                0 0 20px #ffc107,
-                0 0 30px rgba(255, 193, 7, 0.5);
-            animation: twinkle 2s ease-in-out infinite;
-        }
-
-        @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 0.3;
-                transform: scale(0.8);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            #message {
-                padding: 1.8rem 1.5rem;
-            }
-
-            #finalMessage {
-                padding: 1.5rem;
-            }
+        @media (max-width: 400px) {
+            .grid-emociones { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-
 <body>
-    <div class="overlay-pattern"></div>
 
-    <!-- Pétalos flotantes -->
-    <div class="floating-petals" id="petalsContainer"></div>
-
-    <!-- Luces divinas -->
-    <div id="divineLightsContainer"></div>
-
-    <canvas id="canvas"></canvas>
-
-    <div id="message">
-        <div class="message-text"></div>
-    </div>
-
-    <div id="finalMessage">
-        <div class="verse-reference">Cantares 4:3</div>
-        <div class="verse-text">
-            Tus labios son como <span class="scarlet-highlight">una cinta escarlata</span>;
-            tu boca me cautiva. Tus mejillas son como
-            <span class="pomegranate-highlight">granadas color rosa</span> detrás de tu velo.
+    <div class="sketch-container">
+        <!-- Pantalla de Inicio -->
+        <div id="p1">
+            <h1>Hola Vale 💕</h1>
+            <p class="intro">Hice esto pensando en que siempre tengas una palabra que te dé paz. ♥</p>
+            <button class="btn-custom btn-main" onclick="ir(2)">Presiona aquí</button>
         </div>
-        <div class="verse-decoration">
-            <span>🌹</span>
-            <span>✞</span>
-            <span>💐</span>
-            <span>✞</span>
-            <span>🌹</span>
+
+        <!-- Pantalla de Selección -->
+        <div id="p2" class="hidden">
+            <p class="intro" style="margin-bottom: 15px;">¿Cómo te sientes o qué necesitas hoy?</p>
+            <div class="grid-emociones">
+                <button class="btn-custom" onclick="ver('salud')">Salud</button>
+                <button class="btn-custom" onclick="ver('angustia')">Angustia</button>
+                <button class="btn-custom" onclick="ver('miedo')">Miedo</button>
+                <button class="btn-custom" onclick="ver('seguridad')">Seguridad</button>
+                <button class="btn-custom" onclick="ver('proteccion')">Protección</button>
+                <button class="btn-custom" onclick="ver('fe')">Fortalecer mi Fe</button>
+                <button class="btn-custom" onclick="ver('enojo')">Enojo o Ira</button>
+                <button class="btn-custom" onclick="ver('tristeza')">Tristeza</button>
+                <button class="btn-custom" onclick="ver('soledad')">Soledad</button>
+                <button class="btn-custom" onclick="ver('paz')">Paz Interior</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Resultado -->
+        <div id="p3" class="hidden">
+            <div class="verse-area">
+                <p id="v-txt" class="verse-text"></p>
+                <p id="v-ref" class="verse-ref"></p>
+                
+                <div class="version-label">
+                    Versión: 
+                    <span id="v1960" class="active" onclick="setV('RVR1960')">RVR1960</span> | 
+                    <span id="vntv" onclick="setV('NTV')">NTV</span>
+                </div>
+            </div>
+            <button class="btn-custom" style="margin-top: 20px;" onclick="ir(2)">← Ver otro</button>
+            <div class="heart">♥</div>
         </div>
     </div>
-
-    <div id="signature"></div>
 
     <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const messageEl = document.getElementById('message');
-        const messageTextEl = messageEl.querySelector('.message-text');
-        const finalMessageEl = document.getElementById('finalMessage');
-        const signatureEl = document.getElementById('signature');
-        const petalsContainer = document.getElementById('petalsContainer');
-        const divineLightsContainer = document.getElementById('divineLightsContainer');
-
-        let stars = [];
-        let hearts = [];
-
-        // Crear pétalos flotantes
-        function createFloatingPetals() {
-            for (let i = 0; i < 15; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDelay = Math.random() * 12 + 's';
-                petal.style.animationDuration = (10 + Math.random() * 5) + 's';
-
-                // Variación de colores escarlata y rosa granada
-                const colors = [
-                    'linear-gradient(135deg, #c0392b, #e74c3c)',
-                    'linear-gradient(135deg, #e875a0, #f1a7c4)',
-                    'linear-gradient(135deg, #8b0000, #dc143c)',
-                    'linear-gradient(135deg, #cd5c5c, #f08080)'
-                ];
-                petal.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-                petalsContainer.appendChild(petal);
+        const data = {
+            salud: {
+                ref: "Éxodo 15:26",
+                RVR1960: "...porque yo soy Jehová tu sanador.",
+                NTV: "...pues yo soy el Señor, quien los sana."
+            },
+            angustia: {
+                ref: "Salmo 46:1",
+                RVR1960: "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones.",
+                NTV: "Dios es nuestro refugio y nuestra fuerza, siempre está dispuesto a ayudar en tiempos de dificultad."
+            },
+            miedo: {
+                ref: "Isaías 41:10",
+                RVR1960: "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios...",
+                NTV: "No tengas miedo, porque yo estoy contigo; no te desalientes, porque yo soy tu Dios."
+            },
+            seguridad: {
+                ref: "Proverbios 3:26",
+                RVR1960: "Porque Jehová será tu confianza, y él preservará tu pie de quedar preso.",
+                NTV: "¡porque el Señor es tu seguridad! Él evitará que tu pie caiga en una trampa."
+            },
+            proteccion: {
+                ref: "Salmo 121:7",
+                RVR1960: "Jehová te guardará de todo mal; Él guardará tu alma.",
+                NTV: "El Señor te libra de todo mal y cuida tu vida."
+            },
+            fe: {
+                ref: "Hebreos 11:1",
+                RVR1960: "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.",
+                NTV: "La fe es la confianza de que en verdad sucederá lo que esperamos; es la prueba de lo que no vemos."
+            },
+            enojo: {
+                ref: "Santiago 1:19",
+                RVR1960: "Todo hombre sea pronto para oír, tardo para hablar, tardo para airarse.",
+                NTV: "Todos deben ser rápidos para escuchar, lentos para hablar y lentos para enojarse."
+            },
+            tristeza: {
+                ref: "Salmo 147:3",
+                RVR1960: "Él sana a los quebrantados de corazón, y venda sus heridas.",
+                NTV: "Él sana a los de corazón quebrantado y venda sus heridas."
+            },
+            soledad: {
+                ref: "Josué 1:9",
+                RVR1960: "...no temas ni desmayes, porque Jehová tu Dios estará contigo en dondequiera que vayas.",
+                NTV: "...¡No tengas miedo ni te desanimes! Porque el Señor tu Dios está contigo dondequiera que vayas."
+            },
+            paz: {
+                ref: "Juan 14:27",
+                RVR1960: "La paz os dejo, mi paz os doy; yo no os la doy como el mundo la da.",
+                NTV: "Les dejo un regalo: paz en la mente y en el corazón. Y la paz que yo doy es un regalo que el mundo no puede dar."
             }
+        };
+
+        let currentKey = "";
+        let currentVer = "RVR1960";
+
+        function ir(n) {
+            document.getElementById('p1').classList.add('hidden');
+            document.getElementById('p2').classList.add('hidden');
+            document.getElementById('p3').classList.add('hidden');
+            document.getElementById('p' + n).classList.remove('hidden');
         }
 
-        // Crear luces divinas
-        function createDivineLights() {
-            for (let i = 0; i < 20; i++) {
-                const light = document.createElement('div');
-                light.className = 'divine-light';
-                light.style.left = Math.random() * 100 + '%';
-                light.style.top = Math.random() * 100 + '%';
-                light.style.animationDelay = Math.random() * 3 + 's';
-                divineLightsContainer.appendChild(light);
-            }
+        function ver(k) {
+            currentKey = k;
+            render();
+            ir(3);
         }
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            if (stars.length > 0) createStars();
+        function setV(v) {
+            currentVer = v;
+            document.getElementById('v1960').classList.toggle('active', v === 'RVR1960');
+            document.getElementById('vntv').classList.toggle('active', v === 'NTV');
+            render();
         }
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        let progress = 0;
-        let bouquetComplete = false;
-        let puedeCrecer = false;
-        let currentMessageIndex = 0;
-
-        const messages = [
-            "✞ ¡Hola, amor mío!",
-            "Quiero compartir contigo algo especial...",
-            "Dios puso en mi corazón palabras hermosas...",
-            "...palabras que describen tu belleza.",
-            "Como ingeniero de sistemas, mi creatividad no tiene límites...",
-            "...para expresar lo que siento por ti.",
-            "Pero la Palabra de Dios lo dice mejor...",
-            "Contempla este jardín que florece para ti... ✞"
-        ];
-
-        function showNextMessage() {
-            if (currentMessageIndex < messages.length) {
-                messageTextEl.textContent = messages[currentMessageIndex];
-                messageEl.style.opacity = '1';
-
-                setTimeout(() => {
-                    messageEl.style.opacity = '0';
-                    setTimeout(() => {
-                        currentMessageIndex++;
-                        showNextMessage();
-                    }, 1000);
-                }, 3500);
-            } else {
-                messageEl.style.display = 'none';
-                puedeCrecer = true;
-            }
+        function render() {
+            const item = data[currentKey];
+            document.getElementById('v-txt').innerText = `"${item[currentVer]}"`;
+            document.getElementById('v-ref').innerText = item.ref;
         }
-
-        function createStars() {
-            stars = [];
-            for (let i = 0; i < 100; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height * 0.7,
-                    radius: Math.random() * 2,
-                    opacity: Math.random() * 0.8 + 0.2,
-                    twinkleSpeed: Math.random() * 0.003 + 0.001
-                });
-            }
-        }
-
-        function drawBackground(p) {
-            // Fondo con degradado oscuro romántico
-            const gradient = ctx.createRadialGradient(
-                canvas.width / 2, canvas.height * 0.3, 0,
-                canvas.width / 2, canvas.height * 0.3, canvas.height
-            );
-
-            gradient.addColorStop(0, `rgba(74, 28, 28, ${0.3 + p * 0.4})`);
-            gradient.addColorStop(0.5, `rgba(45, 21, 21, ${0.6 + p * 0.3})`);
-            gradient.addColorStop(1, `rgba(26, 10, 10, 1)`);
-
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Estrellas con brillo dorado
-            stars.forEach(star => {
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                const twinkle = Math.abs(Math.sin(Date.now() * star.twinkleSpeed + star.x));
-                const alpha = twinkle * star.opacity * (0.5 + p * 0.5);
-
-                // Algunas estrellas doradas, otras blancas
-                if (star.x % 3 < 1) {
-                    ctx.fillStyle = `rgba(255, 193, 7, ${alpha})`;
-                } else {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.8})`;
-                }
-                ctx.fill();
-
-                // Brillo alrededor
-                if (twinkle > 0.7) {
-                    ctx.beginPath();
-                    ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 215, 0, ${alpha * 0.1})`;
-                    ctx.fill();
-                }
-            });
-        }
-
-        function drawGrass(p) {
-            const grassProgress = puedeCrecer ? p : 0;
-
-            // Degradado del césped
-            const grassGradient = ctx.createLinearGradient(0, canvas.height * 0.85, 0, canvas.height);
-            grassGradient.addColorStop(0, 'rgb(34, 85, 34)');
-            grassGradient.addColorStop(0.5, 'rgb(28, 70, 28)');
-            grassGradient.addColorStop(1, 'rgb(20, 50, 20)');
-
-            ctx.fillStyle = grassGradient;
-            ctx.fillRect(0, canvas.height * 0.85, canvas.width, canvas.height * 0.15 * grassProgress);
-        }
-
-        // Dibujar rosa escarlata (según el versículo)
-        function drawScarletRose(x, y, radius, p) {
-            const layers = 5;
-            for (let layer = layers; layer >= 1; layer--) {
-                const layerProgress = Math.max(0, Math.min(1, (p - (layers - layer) * 0.15) / 0.5));
-                if (layerProgress <= 0) continue;
-
-                const layerRadius = radius * (layer / layers) * layerProgress;
-                const petalCount = 5 + layer;
-
-                for (let i = 0; i < petalCount; i++) {
-                    const angle = (i / petalCount) * Math.PI * 2 + layer * 0.3;
-                    ctx.save();
-                    ctx.translate(x, y);
-                    ctx.rotate(angle);
-
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.quadraticCurveTo(layerRadius * 0.5, -layerRadius * 0.6, layerRadius, 0);
-                    ctx.quadraticCurveTo(layerRadius * 0.5, layerRadius * 0.6, 0, 0);
-
-                    // Gradiente escarlata como la cinta del versículo
-                    const petalGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, layerRadius);
-                    petalGradient.addColorStop(0, `rgba(139, 0, 0, ${0.9 * layerProgress})`);
-                    petalGradient.addColorStop(0.5, `rgba(220, 53, 69, ${0.85 * layerProgress})`);
-                    petalGradient.addColorStop(1, `rgba(178, 34, 34, ${0.8 * layerProgress})`);
-
-                    ctx.fillStyle = petalGradient;
-                    ctx.fill();
-                    ctx.restore();
-                }
-            }
-
-            // Centro dorado
-            const centerProgress = Math.max(0, (p - 0.7) / 0.3);
-            if (centerProgress > 0) {
-                ctx.beginPath();
-                ctx.arc(x, y, (radius / 5) * centerProgress, 0, Math.PI * 2);
-                const centerGradient = ctx.createRadialGradient(x, y, 0, x, y, radius / 5);
-                centerGradient.addColorStop(0, `rgba(255, 215, 0, ${centerProgress})`);
-                centerGradient.addColorStop(1, `rgba(218, 165, 32, ${centerProgress * 0.8})`);
-                ctx.fillStyle = centerGradient;
-                ctx.fill();
-            }
-        }
-
-        // Dibujar flor granada rosa (según el versículo)
-        function drawPomegranateFlower(x, y, radius, p) {
-            const layers = 4;
-            for (let layer = layers; layer >= 1; layer--) {
-                const layerProgress = Math.max(0, Math.min(1, (p - (layers - layer) * 0.2) / 0.5));
-                if (layerProgress <= 0) continue;
-
-                const layerRadius = radius * (layer / layers) * layerProgress;
-                const petalCount = 6;
-
-                for (let i = 0; i < petalCount; i++) {
-                    const angle = (i / petalCount) * Math.PI * 2 + layer * 0.25;
-                    ctx.save();
-                    ctx.translate(x, y);
-                    ctx.rotate(angle);
-
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.bezierCurveTo(
-                        layerRadius * 0.3, -layerRadius * 0.5,
-                        layerRadius * 0.7, -layerRadius * 0.3,
-                        layerRadius, 0
-                    );
-                    ctx.bezierCurveTo(
-                        layerRadius * 0.7, layerRadius * 0.3,
-                        layerRadius * 0.3, layerRadius * 0.5,
-                        0, 0
-                    );
-
-                    // Color rosa granada como las mejillas del versículo
-                    const petalGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, layerRadius);
-                    petalGradient.addColorStop(0, `rgba(255, 182, 193, ${0.9 * layerProgress})`);
-                    petalGradient.addColorStop(0.5, `rgba(232, 117, 160, ${0.85 * layerProgress})`);
-                    petalGradient.addColorStop(1, `rgba(219, 112, 147, ${0.8 * layerProgress})`);
-
-                    ctx.fillStyle = petalGradient;
-                    ctx.fill();
-                    ctx.restore();
-                }
-            }
-
-            // Centro con semillas de granada
-            const centerProgress = Math.max(0, (p - 0.75) / 0.25);
-            if (centerProgress > 0) {
-                ctx.beginPath();
-                ctx.arc(x, y, (radius / 4) * centerProgress, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(199, 21, 133, ${centerProgress * 0.9})`;
-                ctx.fill();
-
-                // Pequeños puntos como semillas
-                for (let i = 0; i < 5; i++) {
-                    const seedAngle = (i / 5) * Math.PI * 2;
-                    const seedX = x + Math.cos(seedAngle) * (radius / 8) * centerProgress;
-                    const seedY = y + Math.sin(seedAngle) * (radius / 8) * centerProgress;
-                    ctx.beginPath();
-                    ctx.arc(seedX, seedY, 2 * centerProgress, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(139, 0, 0, ${centerProgress})`;
-                    ctx.fill();
-                }
-            }
-        }
-
-        function drawCurvedStem(start, end, p) {
-            const controlX = start.x - (start.x - end.x) * 0.5;
-            const controlY = start.y + (end.y - start.y) * 0.2;
-
-            const midX = (1 - p) * (1 - p) * start.x + 2 * (1 - p) * p * controlX + p * p * end.x;
-            const midY = (1 - p) * (1 - p) * start.y + 2 * (1 - p) * p * controlY + p * p * end.y;
-
-            ctx.beginPath();
-            ctx.moveTo(start.x, start.y);
-            ctx.quadraticCurveTo(controlX, controlY, midX, midY);
-
-            const stemGradient = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
-            stemGradient.addColorStop(0, 'rgb(34, 100, 34)');
-            stemGradient.addColorStop(1, 'rgb(28, 70, 28)');
-
-            ctx.strokeStyle = stemGradient;
-            ctx.lineWidth = canvas.width * 0.006;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-
-            // Pequeñas hojas en el tallo
-            if (p > 0.5) {
-                const leafProgress = (p - 0.5) / 0.5;
-                const leafX = (1 - 0.6) * (1 - 0.6) * start.x + 2 * (1 - 0.6) * 0.6 * controlX + 0.6 * 0.6 * end.x;
-                const leafY = (1 - 0.6) * (1 - 0.6) * start.y + 2 * (1 - 0.6) * 0.6 * controlY + 0.6 * 0.6 * end.y;
-
-                ctx.save();
-                ctx.translate(leafX, leafY);
-                ctx.rotate(Math.PI / 4);
-                ctx.beginPath();
-                ctx.ellipse(0, 0, 8 * leafProgress, 15 * leafProgress, 0, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(34, 139, 34, 0.8)';
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-
-        function drawBouquet(p, sway) {
-            const basePoint = { x: canvas.width / 2, y: canvas.height * 0.95 };
-
-            const flowers = [
-                // Rosas escarlata (como la cinta del versículo)
-                { x: canvas.width * 0.5, y: canvas.height * 0.42, radius: canvas.width / 14, start: 0.0, end: 0.65, type: 'scarlet' },
-                { x: canvas.width * 0.35, y: canvas.height * 0.52, radius: canvas.width / 18, start: 0.15, end: 0.75, type: 'scarlet' },
-                { x: canvas.width * 0.65, y: canvas.height * 0.48, radius: canvas.width / 16, start: 0.25, end: 0.85, type: 'scarlet' },
-                // Flores granada rosa (como las mejillas del versículo)
-                { x: canvas.width * 0.42, y: canvas.height * 0.58, radius: canvas.width / 20, start: 0.35, end: 0.9, type: 'pomegranate' },
-                { x: canvas.width * 0.58, y: canvas.height * 0.56, radius: canvas.width / 19, start: 0.45, end: 0.95, type: 'pomegranate' },
-                { x: canvas.width * 0.5, y: canvas.height * 0.52, radius: canvas.width / 22, start: 0.55, end: 1.0, type: 'pomegranate' }
-            ];
-
-            flowers.forEach(flower => {
-                const flowerProgress = Math.max(0, Math.min(1, (p - flower.start) / (flower.end - flower.start)));
-
-                if (flowerProgress > 0) {
-                    const flowerBase = { x: flower.x + sway, y: flower.y + flower.radius * 0.5 };
-                    drawCurvedStem(flowerBase, basePoint, flowerProgress);
-
-                    if (flower.type === 'scarlet') {
-                        drawScarletRose(flower.x + sway, flower.y, flower.radius, flowerProgress);
-                    } else {
-                        drawPomegranateFlower(flower.x + sway, flower.y, flower.radius, flowerProgress);
-                    }
-                }
-            });
-        }
-
-        function draw() {
-            requestAnimationFrame(draw);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            if (puedeCrecer && progress < 1) {
-                progress += 0.0025;
-            }
-
-            let sway = 0;
-            if (bouquetComplete) {
-                sway = Math.sin(Date.now() * 0.0008) * (canvas.width * 0.008);
-            }
-
-            drawBackground(progress);
-            drawGrass(progress);
-
-            if (puedeCrecer) {
-                drawBouquet(progress, sway);
-            }
-
-            if (progress >= 1 && !bouquetComplete) {
-                bouquetComplete = true;
-                finalMessageEl.style.opacity = '1';
-
-                setTimeout(() => {
-                    signatureEl.textContent = "Con amor, Andres ✞";
-                    signatureEl.style.opacity = '1';
-                }, 2000);
-            }
-        }
-
-        // Inicialización
-        createFloatingPetals();
-        createDivineLights();
-        showNextMessage();
-        createStars();
-        draw();
     </script>
 </body>
-
 </html>
-</CodeContent>
-<parameter name="EmptyFile">false
