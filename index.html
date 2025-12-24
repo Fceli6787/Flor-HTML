@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algo especial para ti</title>
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gochi+Hand&family=Lora:ital@1&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gochi+Hand&family=Lora:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@600&display=swap"
+        rel="stylesheet">
+
     <style>
         body {
             background-color: #fdf5e6;
@@ -20,15 +23,19 @@
         }
 
         .sketch-container {
-            background: #ffffff;
+            background: #fcfcfc;
             width: 100%;
             max-width: 550px;
-            padding: 35px 25px;
-            border: 2px solid #5d4037;
-            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-            box-shadow: 10px 10px 0px #d4a5a5;
+            padding: 40px 45px;
+            border: 1px solid #e0d5d5;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(93, 64, 55, 0.08);
             text-align: center;
             position: relative;
+            background-image: radial-gradient(#d4a5a5 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            background-color: #fcfcfc;
+            background-blend-mode: overlay;
         }
 
         h1 {
@@ -38,7 +45,10 @@
             margin-bottom: 10px;
         }
 
-        .intro { font-size: 1.2rem; margin-bottom: 25px; }
+        .intro {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
 
         /* Cuadrícula para que quepan muchas emociones */
         .grid-emociones {
@@ -101,19 +111,342 @@
             color: #888;
         }
 
-        .version-label span { cursor: pointer; padding: 0 5px; }
-        .version-label span.active { color: #d4a5a5; font-weight: bold; text-decoration: underline; }
+        .version-label span {
+            cursor: pointer;
+            padding: 0 5px;
+        }
 
-        .hidden { display: none; }
-        .heart { color: #d4a5a5; font-size: 1.5rem; margin-top: 15px; }
+        .version-label span.active {
+            color: #d4a5a5;
+            font-weight: bold;
+            text-decoration: underline;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-letter {
+            background: #fff0f0;
+            border: 2px dashed #d4a5a5;
+            color: #d4a5a5;
+            margin-top: 20px;
+            font-weight: bold;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        .btn-letter:hover:not(:disabled) {
+            background: #d4a5a5;
+            color: white;
+            border-style: solid;
+        }
+
+        .btn-letter:disabled {
+            background: #f5f5f5;
+            border-color: #ccc;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-letter:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ===== ESTILOS DEL TIMER ===== */
+        .gift-container {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff9f9 0%, #fff0f5 100%);
+            border-radius: 15px;
+            border: 2px dashed #d4a5a5;
+        }
+
+        .gift-title {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.3rem;
+            color: #d4a5a5;
+            margin-bottom: 15px;
+        }
+
+        .gift-title .gift-emoji {
+            font-size: 1.5rem;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: white;
+            padding: 10px 12px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(212, 165, 165, 0.2);
+            min-width: 60px;
+        }
+
+        .countdown-number {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c48484;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .gift-message {
+            font-size: 0.95rem;
+            color: #888;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .gift-unlocked {
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(212, 165, 165, 0.5);
+            }
+
+            to {
+                box-shadow: 0 0 20px rgba(212, 165, 165, 0.8), 0 0 30px rgba(212, 165, 165, 0.4);
+            }
+        }
+
+        /* ===== ESTILOS DE LA CARTA ===== */
+        .letter-wrapper {
+            margin-top: 10px;
+            padding: 30px 25px;
+            border-top: 2px dashed #f0ede5;
+            border-bottom: 2px dashed #f0ede5;
+            background: linear-gradient(135deg, rgba(212, 165, 165, 0.03) 0%, rgba(255, 240, 240, 0.08) 100%);
+            border-radius: 8px;
+            position: relative;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .letter-wrapper::before {
+            content: '💌';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8rem;
+            background: #fcfcfc;
+            padding: 0 15px;
+        }
+
+        .letter-content {
+            font-family: 'Lora', serif;
+            font-size: 1.15rem;
+            line-height: 2;
+            text-align: center;
+            padding: 15px 10px;
+            color: #4a4a4a;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .letter-greeting {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #d4a5a5;
+            margin-bottom: 30px;
+            display: block;
+            text-shadow: 1px 1px 2px rgba(212, 165, 165, 0.2);
+            position: relative;
+        }
+
+        .letter-greeting::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4a5a5, transparent);
+            margin: 15px auto 0;
+        }
+
+        .letter-text {
+            margin-bottom: 25px;
+            display: block;
+            padding: 0 5px;
+            position: relative;
+        }
+
+        .letter-text:not(:last-child)::after {
+            content: '♥';
+            display: block;
+            color: #e8c4c4;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            opacity: 0.6;
+        }
+
+        .letter-text b {
+            color: #c48484;
+            font-weight: 600;
+            background: linear-gradient(180deg, transparent 60%, rgba(212, 165, 165, 0.25) 60%);
+            padding: 0 3px;
+        }
+
+        .letter-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px 0;
+            gap: 15px;
+        }
+
+        .letter-divider::before,
+        .letter-divider::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4a5a5);
+        }
+
+        .letter-divider::after {
+            background: linear-gradient(90deg, #d4a5a5, transparent);
+        }
+
+        .letter-footer {
+            margin-top: 35px;
+            padding-top: 20px;
+            text-align: center;
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.5rem;
+            color: #d4a5a5;
+            position: relative;
+        }
+
+        .letter-footer::before {
+            content: '~ ';
+        }
+
+        .letter-footer::after {
+            content: ' ~';
+        }
+
+        .letter-heart-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .letter-heart-decoration span {
+            color: #d4a5a5;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .letter-heart-decoration span:nth-child(2) {
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+
+        .letter-heart-decoration span:nth-child(3) {
+            font-size: 1.3rem;
+            opacity: 1;
+        }
+
+        .letter-heart-decoration span:nth-child(4) {
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+
+        .letter-heart-decoration span:nth-child(5) {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .btn-minimal {
+            background: transparent;
+            border: 1px solid #d4a5a5;
+            color: #d4a5a5;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-minimal:hover {
+            background: #fff0f0;
+            border-color: #5d4037;
+            color: #5d4037;
+            transform: translateY(-1px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .heart {
+            color: #d4a5a5;
+            font-size: 1.5rem;
+            margin-top: 15px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         @media (max-width: 400px) {
-            .grid-emociones { grid-template-columns: 1fr; }
+            .grid-emociones {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="sketch-container">
@@ -139,6 +472,33 @@
                 <button class="btn-custom" onclick="ver('soledad')">Soledad</button>
                 <button class="btn-custom" onclick="ver('paz')">Paz Interior</button>
             </div>
+
+            <!-- Contenedor del Regalo Especial -->
+            <div class="gift-container" id="giftContainer">
+                <p class="gift-title"><span class="gift-emoji">🎁</span> Un regalo especial te espera...</p>
+                <div class="countdown-timer" id="countdownTimer">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countdown-days">00</span>
+                        <span class="countdown-label">Días</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countdown-hours">00</span>
+                        <span class="countdown-label">Horas</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countdown-minutes">00</span>
+                        <span class="countdown-label">Min</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="countdown-seconds">00</span>
+                        <span class="countdown-label">Seg</span>
+                    </div>
+                </div>
+                <p class="gift-message" id="giftMessage">Se desbloqueará el 25 de Diciembre a la medianoche 🎄</p>
+                <button class="btn-custom btn-letter" id="btnGift" onclick="abrirRegalo()" disabled>
+                    <span>� Abrir Regalo 🎁</span>
+                </button>
+            </div>
         </div>
 
         <!-- Pantalla de Resultado -->
@@ -146,15 +506,52 @@
             <div class="verse-area">
                 <p id="v-txt" class="verse-text"></p>
                 <p id="v-ref" class="verse-ref"></p>
-                
+
                 <div class="version-label">
-                    Versión: 
-                    <span id="v1960" class="active" onclick="setV('RVR1960')">RVR1960</span> | 
+                    Versión:
+                    <span id="v1960" class="active" onclick="setV('RVR1960')">RVR1960</span> |
                     <span id="vntv" onclick="setV('NTV')">NTV</span>
                 </div>
             </div>
             <button class="btn-custom" style="margin-top: 20px;" onclick="ir(2)">← Ver otro</button>
             <div class="heart">♥</div>
+        </div>
+
+        <!-- Pantalla de Carta -->
+        <div id="p4" class="hidden">
+            <div class="letter-wrapper">
+                <div class="letter-content">
+                    <span class="letter-greeting">Vale,</span>
+
+                    <span class="letter-text">Quería que tuvieras este espacio para cuando necesites recordar algo
+                        sencillo pero muy real: <b>te quiero mucho.</b></span>
+
+                    <span class="letter-text">Hice esta página como un pequeño regalo de Navidad porque quería darte
+                        algo diferente, algo que te recordara lo valiosa que eres cada vez que lo leas. De verdad le doy
+                        muchas gracias a Dios por tu vida y por haberte conocido.</span>
+
+                    <span class="letter-text">Como dice la Biblia en <b>1 Corintios 1:4</b>: <i>"Siempre doy gracias a
+                            mi Dios por ti"</i>. Y es la verdad, porque personas como tú no se encuentran todos los
+                        días.</span>
+
+                    <span class="letter-text">No importa cómo vaya el día, quiero que sepas que siempre pienso en ti,
+                        que me importas mucho y que tu sonrisa es mi parte favorita de hablar contigo.</span>
+
+                    <span class="letter-text">A veces no se necesitan palabras tan grandes, solo decir lo que uno siente
+                        de corazón:</span>
+
+                    <span class="letter-text"><b>Aquí estoy para ti, y le pido a Dios que te cuide y te dé mucha paz hoy
+                            y siempre. 🤍</b></span>
+                </div>
+                <div class="letter-heart-decoration">
+                    <span>♥</span>
+                    <span>♥</span>
+                    <span>♥</span>
+                    <span>♥</span>
+                    <span>♥</span>
+                </div>
+            </div>
+            <button class="btn-custom btn-minimal" onclick="ir(2)">← Volver</button>
         </div>
     </div>
 
@@ -219,6 +616,7 @@
             document.getElementById('p1').classList.add('hidden');
             document.getElementById('p2').classList.add('hidden');
             document.getElementById('p3').classList.add('hidden');
+            document.getElementById('p4').classList.add('hidden');
             document.getElementById('p' + n).classList.remove('hidden');
         }
 
@@ -240,6 +638,75 @@
             document.getElementById('v-txt').innerText = `"${item[currentVer]}"`;
             document.getElementById('v-ref').innerText = item.ref;
         }
+
+        // ===== TIMER DEL REGALO =====
+        // Fecha objetivo: 25 de Diciembre 2025 a las 00:00:00 hora Colombia (UTC-5)
+        const targetDate = new Date('2025-12-25T00:00:00-05:00');
+        let countdownInterval;
+
+        function updateCountdown() {
+            const now = new Date();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                // ¡Ya es hora de abrir el regalo!
+                clearInterval(countdownInterval);
+                unlockGift();
+                return;
+            }
+
+            // Calcular días, horas, minutos y segundos
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            // Actualizar el DOM
+            document.getElementById('countdown-days').textContent = String(days).padStart(2, '0');
+            document.getElementById('countdown-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('countdown-minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('countdown-seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        function unlockGift() {
+            const btn = document.getElementById('btnGift');
+            const container = document.getElementById('giftContainer');
+            const timer = document.getElementById('countdownTimer');
+            const message = document.getElementById('giftMessage');
+
+            // Ocultar timer
+            timer.style.display = 'none';
+
+            // Cambiar mensaje
+            message.innerHTML = '🎄 ¡Feliz Navidad! Tu regalo está listo 🎄';
+            message.style.color = '#c48484';
+            message.style.fontWeight = 'bold';
+            message.style.fontSize = '1.1rem';
+
+            // Habilitar botón
+            btn.disabled = false;
+            btn.innerHTML = '<span>🎁 Abrir Regalo 🎁</span>';
+
+            // Añadir efecto de brillo
+            container.classList.add('gift-unlocked');
+        }
+
+        function abrirRegalo() {
+            const now = new Date();
+            if (now >= targetDate) {
+                ir(4);
+            } else {
+                // Si intentan hacer trampa
+                alert('¡Aún no es hora! Espera a que llegue la Navidad 🎄');
+            }
+        }
+
+        // Iniciar el countdown cuando carga la página
+        document.addEventListener('DOMContentLoaded', function () {
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        });
     </script>
 </body>
+
 </html>
