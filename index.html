@@ -421,6 +421,67 @@
             display: none;
         }
 
+        /* ===== EFECTO LLUVIA DE CORAZONES ===== */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .falling-heart {
+            position: absolute;
+            top: -50px;
+            animation: fall linear forwards;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 3px rgba(212, 165, 165, 0.5));
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.9;
+            }
+
+            25% {
+                transform: translateY(25vh) rotate(90deg) scale(1.1);
+            }
+
+            50% {
+                transform: translateY(50vh) rotate(180deg) scale(0.9);
+                opacity: 0.7;
+            }
+
+            75% {
+                transform: translateY(75vh) rotate(270deg) scale(1.05);
+            }
+
+            100% {
+                transform: translateY(105vh) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+
+            0%,
+            100% {
+                margin-left: 0;
+            }
+
+            25% {
+                margin-left: 15px;
+            }
+
+            75% {
+                margin-left: -15px;
+            }
+        }
+
         .heart {
             color: #d4a5a5;
             font-size: 1.5rem;
@@ -494,7 +555,7 @@
                         <span class="countdown-label">Seg</span>
                     </div>
                 </div>
-                <p class="gift-message" id="giftMessage">Se desbloqueará el 25 de Diciembre a la medianoche 🎄</p>
+                <p class="gift-message" id="giftMessage">Se desbloqueará el 24 de Diciembre a las 22:00 🎄</p>
                 <button class="btn-custom btn-letter" id="btnGift" onclick="abrirRegalo()" disabled>
                     <span>� Abrir Regalo 🎁</span>
                 </button>
@@ -516,6 +577,9 @@
             <button class="btn-custom" style="margin-top: 20px;" onclick="ir(2)">← Ver otro</button>
             <div class="heart">♥</div>
         </div>
+
+        <!-- Contenedor de corazones cayendo -->
+        <div id="heartsContainer" class="hearts-container hidden"></div>
 
         <!-- Pantalla de Carta -->
         <div id="p4" class="hidden">
@@ -612,12 +676,78 @@
         let currentKey = "";
         let currentVer = "RVR1960";
 
+        // ===== EFECTO LLUVIA DE CORAZONES =====
+        let heartsInterval = null;
+        const heartEmojis = ['💕', '💗', '💖', '💝', '❤️', '💓', '🤍', '💜', '🩷', '✨'];
+
+        function createHeart() {
+            const container = document.getElementById('heartsContainer');
+            const heart = document.createElement('div');
+            heart.className = 'falling-heart';
+
+            // Emoji aleatorio
+            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+            // Posición horizontal aleatoria
+            heart.style.left = Math.random() * 100 + '%';
+
+            // Tamaño aleatorio (entre 0.8rem y 2rem)
+            const size = 0.8 + Math.random() * 1.2;
+            heart.style.fontSize = size + 'rem';
+
+            // Duración de caída aleatoria (entre 4s y 8s)
+            const duration = 4 + Math.random() * 4;
+            heart.style.animationDuration = duration + 's';
+
+            // Retraso inicial aleatorio
+            heart.style.animationDelay = Math.random() * 0.5 + 's';
+
+            container.appendChild(heart);
+
+            // Eliminar el corazón después de que termine la animación
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, (duration + 1) * 1000);
+        }
+
+        function startHearts() {
+            const container = document.getElementById('heartsContainer');
+            container.classList.remove('hidden');
+
+            // Crear corazones iniciales
+            for (let i = 0; i < 15; i++) {
+                setTimeout(createHeart, i * 200);
+            }
+
+            // Continuar creando corazones cada 300ms
+            heartsInterval = setInterval(createHeart, 300);
+        }
+
+        function stopHearts() {
+            if (heartsInterval) {
+                clearInterval(heartsInterval);
+                heartsInterval = null;
+            }
+            const container = document.getElementById('heartsContainer');
+            container.classList.add('hidden');
+            container.innerHTML = ''; // Limpiar corazones existentes
+        }
+
         function ir(n) {
             document.getElementById('p1').classList.add('hidden');
             document.getElementById('p2').classList.add('hidden');
             document.getElementById('p3').classList.add('hidden');
             document.getElementById('p4').classList.add('hidden');
             document.getElementById('p' + n).classList.remove('hidden');
+
+            // Controlar lluvia de corazones
+            if (n === 4) {
+                startHearts();
+            } else {
+                stopHearts();
+            }
         }
 
         function ver(k) {
@@ -640,8 +770,8 @@
         }
 
         // ===== TIMER DEL REGALO =====
-        // Fecha objetivo: 25 de Diciembre 2025 a las 00:00:00 hora Colombia (UTC-5)
-        const targetDate = new Date('2025-12-25T00:00:00-05:00');
+        // Fecha objetivo: 24 de Diciembre 2025 a las 10:00 PM hora Colombia (UTC-5)
+        const targetDate = new Date('2025-12-24T22:00:00-05:00');
         let countdownInterval;
 
         function updateCountdown() {
