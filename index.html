@@ -44,10 +44,18 @@
         }
 
         .scene {
-            width: var(--book-width);
+            width: 400px;
+            /* Tamaño de libro cerrado */
             height: var(--book-height);
             position: relative;
             perspective: 2000px;
+            transition: width 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            margin: auto;
+        }
+
+        .scene.opened {
+            width: 800px;
+            /* Tamaño de libro abierto (2 páginas) */
         }
 
         .book {
@@ -104,7 +112,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 400px;
             height: 100%;
             transform-origin: left center;
             transform-style: preserve-3d;
@@ -114,6 +122,8 @@
 
         .cover.flipped {
             transform: rotateY(-180deg);
+            pointer-events: none;
+            /* No bloquear clics al estar abierta */
         }
 
         .cover-front {
@@ -135,7 +145,8 @@
             height: 100%;
             backface-visibility: hidden;
             transform: rotateY(180deg);
-            background-color: var(--cover-dark);
+            background-color: transparent;
+            /* Transparente para ver la carta */
             border-radius: 12px;
             z-index: 1;
         }
@@ -161,6 +172,7 @@
             position: absolute;
             top: 10px;
             left: 50%;
+            /* Se mantiene en el centro relativo */
             width: calc(50% - 10px);
             height: calc(100% - 20px);
             z-index: 5;
@@ -176,6 +188,19 @@
             transform-origin: left center;
             transform-style: preserve-3d;
             transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        /* Orden de capas para escritorio: Menú > Versos > Regalo */
+        #sheet1 {
+            z-index: 15;
+        }
+
+        #sheet2 {
+            z-index: 14;
+        }
+
+        #sheet3 {
+            z-index: 13;
         }
 
         .front,
@@ -227,18 +252,18 @@
         .emotion-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 10px 0;
         }
 
         .btn-emo {
             background: #fff;
             border: 1.5px dashed var(--accent-color);
-            padding: 8px;
+            padding: 6px;
             cursor: pointer;
             border-radius: 8px;
             font-family: 'Patrick Hand';
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: 0.2s;
         }
 
@@ -261,12 +286,63 @@
             font-weight: bold;
             position: absolute;
             bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             transition: 0.3s;
+            z-index: 500;
+            /* Siempre encima */
         }
 
         .nav-arrow:hover {
             background: var(--accent-color);
             color: white;
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* Estilo para el formulario (General) */
+        .request-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--accent-color);
+            text-align: center;
+        }
+
+        .request-section p {
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: #8d6e63;
+        }
+
+        .request-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .request-input {
+            padding: 8px;
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            font-family: 'Patrick Hand';
+            font-size: 0.95rem;
+            background: #fffafa;
+            outline: none;
+        }
+
+        .btn-request {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-family: 'Patrick Hand';
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-request:hover {
+            background: #c29494;
         }
 
         /* ===== ESTILOS MÓVIL REFORZADOS (CORRECTOS) ===== */
@@ -318,13 +394,6 @@
                 transform: rotateY(-180deg) translateX(-100%);
                 opacity: 0;
                 pointer-events: none !important;
-            }
-
-            /* El truco del menú: La carta se voltea y queda detrás */
-            .book.show-menu .page-left {
-                transform: rotateY(-180deg);
-                opacity: 0;
-                pointer-events: none;
             }
 
             /* El truco del menú: La carta se voltea y queda detrás */
@@ -408,6 +477,8 @@
             .nav-arrow {
                 width: 80%;
                 left: 10% !important;
+                transform: none !important;
+                /* Corregir centrado en móvil */
                 bottom: 25px;
                 padding: 12px;
                 font-size: 1.1rem;
@@ -429,50 +500,7 @@
                 line-height: 1.5;
             }
 
-            /* Estuilo para el formulario */
-            .request-section {
-                margin-top: 15px;
-                padding-top: 15px;
-                border-top: 1px dashed var(--accent-color);
-                text-align: center;
-            }
-
-            .request-section p {
-                font-size: 0.9rem;
-                margin-bottom: 8px;
-                color: #8d6e63;
-            }
-
-            .request-form {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .request-input {
-                padding: 10px;
-                border: 1px solid var(--accent-color);
-                border-radius: 8px;
-                font-family: 'Patrick Hand';
-                font-size: 1rem;
-                background: #fffafa;
-            }
-
-            .btn-request {
-                background: var(--accent-color);
-                color: white;
-                border: none;
-                padding: 10px;
-                border-radius: 8px;
-                font-family: 'Patrick Hand';
-                font-size: 1.1rem;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-
-            .btn-request:hover {
-                background: #c29494;
-            }
+            /* Estuilos movidos al bloque general */
 
             /* Versículos más GRANDES y equilibrados para iPhone 11 */
             .verse-display {
@@ -698,14 +726,13 @@
         let currentVer = 'RVR1960';
 
         function openCover() {
+            document.querySelector('.scene').classList.add('opened');
             document.getElementById('cover').classList.add('flipped');
             document.getElementById('book').classList.add('opened');
-            // Asegurar que en móvil empiece en la carta
             document.getElementById('book').classList.remove('show-menu');
         }
 
         function closeCover() {
-            // Regresar todas las hojas antes de cerrar
             document.getElementById('sheet1').classList.remove('flipped');
             document.getElementById('sheet2').classList.remove('flipped');
             document.getElementById('sheet3').classList.remove('flipped');
@@ -714,6 +741,7 @@
             setTimeout(() => {
                 document.getElementById('cover').classList.remove('flipped');
                 document.getElementById('book').classList.remove('opened');
+                document.querySelector('.scene').classList.remove('opened');
             }, 300);
         }
 
