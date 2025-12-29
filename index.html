@@ -4,505 +4,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algo especial para ti</title>
+    <title>Regalo Especial</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gochi+Hand&family=Lora:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@600&display=swap"
         rel="stylesheet">
 
     <style>
+        /* ===== SISTEMA DE LIBRO PREMIUM (ESCRITORIO + MÓVIL) ===== */
+        :root {
+            --book-width: 800px;
+            --book-height: 550px;
+            --page-width: 380px;
+            --page-height: 530px;
+
+            --cover-dark: #3e2723;
+            --cover-light: #5d4037;
+            --paper-color: #fdfbf7;
+            --text-color: #4a4a4a;
+            --accent-color: #d4a5a5;
+            --shadow-book: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #fdf5e6;
-            font-family: 'Patrick Hand', cursive;
-            color: #4a4a4a;
+            background-color: #1a1a1a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .sketch-container {
-            background: #fcfcfc;
-            width: 100%;
-            max-width: 550px;
-            padding: 40px 45px;
-            border: 1px solid #e0d5d5;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(93, 64, 55, 0.08);
-            text-align: center;
-            position: relative;
-            background-image: radial-gradient(#d4a5a5 0.5px, transparent 0.5px);
-            background-size: 20px 20px;
-            background-color: #fcfcfc;
-            background-blend-mode: overlay;
-        }
-
-        h1 {
-            font-family: 'Gochi Hand', cursive;
-            font-size: 2.5rem;
-            color: #d4a5a5;
-            margin-bottom: 10px;
-        }
-
-        .intro {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-        }
-
-        /* Cuadrícula para que quepan muchas emociones */
-        .grid-emociones {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .btn-custom {
-            background: none;
-            border: 2px solid #5d4037;
-            padding: 10px;
             font-family: 'Patrick Hand', cursive;
-            font-size: 1.1rem;
-            cursor: pointer;
-            border-radius: 8px 4px 10px 5px;
-            transition: 0.2s;
-            color: #5d4037;
-        }
-
-        .btn-custom:hover {
-            background: #fff0f0;
-            transform: scale(1.02);
-            box-shadow: 2px 2px 0px #d4a5a5;
-        }
-
-        .btn-main {
-            background: #d4a5a5;
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.4rem;
-            width: auto;
-        }
-
-        .verse-area {
-            margin-top: 15px;
             padding: 20px;
-            border-top: 2px dashed #f0ede5;
-            animation: fadeIn 0.6s ease;
+            overflow: hidden;
         }
 
-        .verse-text {
-            font-family: 'Lora', serif;
-            font-size: 1.25rem;
-            font-style: italic;
-            line-height: 1.6;
-            margin-bottom: 15px;
+        .scene {
+            width: var(--book-width);
+            height: var(--book-height);
+            position: relative;
+            perspective: 2000px;
         }
 
-        .verse-ref {
-            font-weight: bold;
-            color: #d4a5a5;
-            letter-spacing: 1px;
-        }
-
-        .version-label {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        .version-label span {
-            cursor: pointer;
-            padding: 0 5px;
-        }
-
-        .version-label span.active {
-            color: #d4a5a5;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        .btn-letter {
-            background: #fff0f0;
-            border: 2px dashed #d4a5a5;
-            color: #d4a5a5;
-            margin-top: 20px;
-            font-weight: bold;
+        .book {
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1.2rem;
-        }
-
-        .btn-letter:hover:not(:disabled) {
-            background: #d4a5a5;
-            color: white;
-            border-style: solid;
-        }
-
-        .btn-letter:disabled {
-            background: #f5f5f5;
-            border-color: #ccc;
-            color: #999;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .btn-letter:disabled:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* ===== ESTILOS DEL TIMER ===== */
-        .gift-container {
-            margin-top: 25px;
-            padding: 20px;
-            background: linear-gradient(135deg, #fff9f9 0%, #fff0f5 100%);
-            border-radius: 15px;
-            border: 2px dashed #d4a5a5;
-        }
-
-        .gift-title {
-            font-family: 'Gochi Hand', cursive;
-            font-size: 1.3rem;
-            color: #d4a5a5;
-            margin-bottom: 15px;
-        }
-
-        .gift-title .gift-emoji {
-            font-size: 1.5rem;
-            animation: bounce 1s ease infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .countdown-item {
-            background: white;
-            padding: 10px 12px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(212, 165, 165, 0.2);
-            min-width: 60px;
-        }
-
-        .countdown-number {
-            font-family: 'Lora', serif;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #c48484;
-            display: block;
-        }
-
-        .countdown-label {
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .gift-message {
-            font-size: 0.95rem;
-            color: #888;
-            font-style: italic;
-            margin-top: 10px;
-        }
-
-        .gift-unlocked {
-            animation: glow 1.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 5px rgba(212, 165, 165, 0.5);
-            }
-
-            to {
-                box-shadow: 0 0 20px rgba(212, 165, 165, 0.8), 0 0 30px rgba(212, 165, 165, 0.4);
-            }
-        }
-
-        /* ===== ESTILOS DE LA CARTA ===== */
-        .letter-wrapper {
-            margin-top: 10px;
-            padding: 30px 25px;
-            border-top: 2px dashed #f0ede5;
-            border-bottom: 2px dashed #f0ede5;
-            background: linear-gradient(135deg, rgba(212, 165, 165, 0.03) 0%, rgba(255, 240, 240, 0.08) 100%);
-            border-radius: 8px;
+            height: 100%;
             position: relative;
-            animation: fadeIn 0.8s ease;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
         }
 
-        .letter-wrapper::before {
-            content: '💌';
+        /* ===== BASE Y ESTRUCTURA ===== */
+        .book-base {
             position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.8rem;
-            background: #fcfcfc;
-            padding: 0 15px;
-        }
-
-        .letter-content {
-            font-family: 'Lora', serif;
-            font-size: 1.15rem;
-            line-height: 2;
-            text-align: center;
-            padding: 15px 10px;
-            color: #4a4a4a;
-            animation: fadeIn 1.2s ease;
-        }
-
-        .letter-greeting {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
-            color: #d4a5a5;
-            margin-bottom: 30px;
-            display: block;
-            text-shadow: 1px 1px 2px rgba(212, 165, 165, 0.2);
-            position: relative;
-        }
-
-        .letter-greeting::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #d4a5a5, transparent);
-            margin: 15px auto 0;
-        }
-
-        .letter-text {
-            margin-bottom: 25px;
-            display: block;
-            padding: 0 5px;
-            position: relative;
-        }
-
-        .letter-text:not(:last-child)::after {
-            content: '♥';
-            display: block;
-            color: #e8c4c4;
-            font-size: 0.8rem;
-            margin-top: 20px;
-            opacity: 0.6;
-        }
-
-        .letter-text b {
-            color: #c48484;
-            font-weight: 600;
-            background: linear-gradient(180deg, transparent 60%, rgba(212, 165, 165, 0.25) 60%);
-            padding: 0 3px;
-        }
-
-        .letter-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 25px 0;
-            gap: 15px;
-        }
-
-        .letter-divider::before,
-        .letter-divider::after {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #d4a5a5);
-        }
-
-        .letter-divider::after {
-            background: linear-gradient(90deg, #d4a5a5, transparent);
-        }
-
-        .letter-footer {
-            margin-top: 35px;
-            padding-top: 20px;
-            text-align: center;
-            font-family: 'Gochi Hand', cursive;
-            font-size: 1.5rem;
-            color: #d4a5a5;
-            position: relative;
-        }
-
-        .letter-footer::before {
-            content: '~ ';
-        }
-
-        .letter-footer::after {
-            content: ' ~';
-        }
-
-        .letter-heart-decoration {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .letter-heart-decoration span {
-            color: #d4a5a5;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .letter-heart-decoration span:nth-child(2) {
-            font-size: 1.1rem;
-            opacity: 0.85;
-        }
-
-        .letter-heart-decoration span:nth-child(3) {
-            font-size: 1.3rem;
-            opacity: 1;
-        }
-
-        .letter-heart-decoration span:nth-child(4) {
-            font-size: 1.1rem;
-            opacity: 0.85;
-        }
-
-        .letter-heart-decoration span:nth-child(5) {
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .btn-minimal {
-            background: transparent;
-            border: 1px solid #d4a5a5;
-            color: #d4a5a5;
-            padding: 8px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            margin-top: 40px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-minimal:hover {
-            background: #fff0f0;
-            border-color: #5d4037;
-            color: #5d4037;
-            transform: translateY(-1px);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* ===== EFECTO LLUVIA DE CORAZONES ===== */
-        .hearts-container {
-            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1000;
+            background-color: var(--cover-dark);
+            border-radius: 12px;
+            box-shadow: var(--shadow-book);
+            z-index: 0;
+            border: 5px solid #2d1a18;
+            display: flex;
+            padding: 10px;
         }
 
-        .falling-heart {
+        .inner-pages {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.4s;
+        }
+
+        .book.opened .inner-pages {
+            opacity: 1;
+        }
+
+        .page-left {
+            width: 50%;
+            height: 100%;
+            background-color: var(--paper-color);
+            border-radius: 8px 0 0 8px;
+            box-shadow: inset -20px 0 30px -15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+
+        /* ===== PORTADA ===== */
+        .cover {
             position: absolute;
-            top: -50px;
-            animation: fall linear forwards;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 3px rgba(212, 165, 165, 0.5));
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            z-index: 100;
         }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0deg) scale(1);
-                opacity: 0.9;
+        .cover.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .cover-front {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            z-index: 2;
+        }
+
+        .cover-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+            background-color: var(--cover-dark);
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+        .cover-design {
+            background: linear-gradient(135deg, var(--cover-light), #8d6e63);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            border: 3px solid #795548;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* ===== HOJAS INTERACTIVAS ===== */
+        .sheets-container {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            width: calc(50% - 10px);
+            height: calc(100% - 20px);
+            z-index: 5;
+            perspective: 2000px;
+        }
+
+        .sheet {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--paper-color);
+            backface-visibility: hidden;
+            padding: 30px;
+            border-radius: 0 8px 8px 0;
+            box-shadow: inset 20px 0 30px -15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background: transparent;
+            box-shadow: none;
+            pointer-events: none;
+        }
+
+        .flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Contenido */
+        h1,
+        h2 {
+            font-family: 'Gochi Hand', cursive;
+            color: var(--cover-light);
+        }
+
+        .letter-greeting {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: var(--cover-light);
+            margin-bottom: 15px;
+        }
+
+        .letter-text {
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .btn-emo {
+            background: #fff;
+            border: 1.5px dashed var(--accent-color);
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Patrick Hand';
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .btn-emo:hover {
+            background: #fdf2f2;
+            transform: scale(1.05);
+        }
+
+        .nav-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 2px solid var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'Patrick Hand';
+            color: var(--cover-light);
+            cursor: pointer;
+            font-weight: bold;
+            position: absolute;
+            bottom: 30px;
+            transition: 0.3s;
+        }
+
+        .nav-arrow:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* ===== ESTILOS MÓVIL REFORZADOS (CORRECTOS) ===== */
+        @media (max-width: 768px) {
+            :root {
+                --book-width: 95vw;
+                --book-height: 85vh;
             }
 
-            25% {
-                transform: translateY(25vh) rotate(90deg) scale(1.1);
+            body {
+                padding: 10px;
+                overflow: hidden;
+                align-items: center;
             }
 
-            50% {
-                transform: translateY(50vh) rotate(180deg) scale(0.9);
-                opacity: 0.7;
+            .scene {
+                width: var(--book-width);
+                height: var(--book-height);
             }
 
-            75% {
-                transform: translateY(75vh) rotate(270deg) scale(1.05);
+            /* En móvil centrados y ocupando todo */
+            .book-base {
+                height: 100%;
             }
 
-            100% {
-                transform: translateY(105vh) rotate(360deg) scale(1);
+            .page-left {
+                width: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 12px;
+                z-index: 20;
+                transition: transform 1s, opacity 0.5s;
+                transform-origin: left center;
+                backface-visibility: hidden;
+                pointer-events: auto;
+                /* Forzar que sea clickable */
+            }
+
+            /* Portada en móvil */
+            .cover {
+                width: 100%;
+                height: 100%;
+                z-index: 100;
+                transition: transform 1s, opacity 0.5s;
+            }
+
+            .cover.flipped {
+                transform: rotateY(-180deg) translateX(-100%);
                 opacity: 0;
-            }
-        }
-
-        @keyframes sway {
-
-            0%,
-            100% {
-                margin-left: 0;
+                pointer-events: none !important;
             }
 
-            25% {
-                margin-left: 15px;
-            }
-
-            75% {
-                margin-left: -15px;
-            }
-        }
-
-        .heart {
-            color: #d4a5a5;
-            font-size: 1.5rem;
-            margin-top: 15px;
-        }
-
-        @keyframes fadeIn {
-            from {
+            /* El truco del menú: La carta se voltea y queda detrás */
+            .book.show-menu .page-left {
+                transform: rotateY(-180deg);
                 opacity: 0;
-                transform: translateY(10px);
+                pointer-events: none;
             }
 
-            to {
+            /* El truco del menú: La carta se voltea y queda detrás */
+            .book.show-menu .page-left {
+                transform: rotateY(-180deg);
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .sheets-container {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                padding: 0;
+                margin: 0;
+                z-index: 10;
+            }
+
+            .book-base {
+                z-index: 30;
+                pointer-events: none;
+                /* La base no clickea, solo sus hijos */
+            }
+
+            .book.opened .book-base .inner-pages {
+                pointer-events: auto;
+                /* Habilitar clics en la carta */
+            }
+
+            .book.show-menu .sheets-container {
+                z-index: 50;
+                pointer-events: auto;
+            }
+
+            .sheet {
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                pointer-events: none;
+                /* Todo oculto por defecto en móvil */
+                transition: opacity 0.3s;
+                z-index: 1;
+            }
+
+            .front {
+                width: 100%;
+                height: 100%;
+                border-radius: 12px;
+                box-shadow: none;
+                z-index: 5;
+            }
+
+            /* Lógica de visibilidad móvil para evitar que se pisen botones */
+            #sheet1:not(.flipped) {
                 opacity: 1;
-                transform: translateY(0);
+                pointer-events: auto;
+                z-index: 60;
+            }
+
+            #sheet1.flipped~#sheet2:not(.flipped) {
+                opacity: 1;
+                pointer-events: auto;
+                z-index: 65;
+            }
+
+            #sheet1.flipped~#sheet2.flipped~#sheet3 {
+                opacity: 1;
+                pointer-events: auto;
+                z-index: 70;
+            }
+
+            /* No usamos display:none para permitir transiciones suaves */
+            .sheet.flipped {
+                pointer-events: none;
+                opacity: 0;
+            }
+
+            /* Ajuste de botones para que no se pierdan */
+            .nav-arrow {
+                width: 80%;
+                left: 10% !important;
+                bottom: 25px;
+                padding: 12px;
+                font-size: 1.1rem;
+            }
+
+            .emotion-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+                margin: 10px 0;
+            }
+
+            .btn-emo {
+                padding: 8px 4px;
+                font-size: 1rem;
+            }
+
+            .letter-text {
+                font-size: 1.1rem;
+                line-height: 1.5;
+            }
+
+            /* Estuilo para el formulario */
+            .request-section {
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px dashed var(--accent-color);
+                text-align: center;
+            }
+
+            .request-section p {
+                font-size: 0.9rem;
+                margin-bottom: 8px;
+                color: #8d6e63;
+            }
+
+            .request-form {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .request-input {
+                padding: 10px;
+                border: 1px solid var(--accent-color);
+                border-radius: 8px;
+                font-family: 'Patrick Hand';
+                font-size: 1rem;
+                background: #fffafa;
+            }
+
+            .btn-request {
+                background: var(--accent-color);
+                color: white;
+                border: none;
+                padding: 10px;
+                border-radius: 8px;
+                font-family: 'Patrick Hand';
+                font-size: 1.1rem;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .btn-request:hover {
+                background: #c29494;
+            }
+
+            /* Versículos más GRANDES y equilibrados para iPhone 11 */
+            .verse-display {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                height: 100%;
+                padding-bottom: 30px;
+            }
+
+            .verse-quote {
+                font-size: 3.5rem !important;
+                color: var(--accent-color) !important;
+                opacity: 0.3;
+                line-height: 0;
+            }
+
+            .verse-txt {
+                font-size: 1.45rem !important;
+                line-height: 1.4 !important;
+                margin: 10px 0;
+                color: var(--text-color);
+            }
+
+            #verse-ref {
+                font-size: 1.1rem !important;
+                margin-bottom: 20px;
+            }
+
+            /* Selector de versiones tipo Pastilla */
+            .version-selector {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .ver-pill {
+                padding: 4px 12px;
+                border-radius: 15px;
+                background: #eee;
+                font-size: 0.85rem !important;
+                color: #777 !important;
+                transition: 0.3s;
+                border: 1px solid transparent;
+            }
+
+            .ver-pill.active {
+                background: var(--accent-color);
+                color: white !important;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             }
         }
 
-        @media (max-width: 400px) {
-            .grid-emociones {
-                grid-template-columns: 1fr;
+        @media (min-width: 769px) {
+            .btn-next-mobile {
+                display: none;
             }
         }
     </style>
@@ -510,333 +537,254 @@
 
 <body>
 
-    <div class="sketch-container">
-        <!-- Pantalla de Inicio -->
-        <div id="p1">
-            <h1>Hola Vale 💕</h1>
-            <p class="intro">Hice esto pensando en que siempre tengas una palabra que te dé paz. ♥</p>
-            <button class="btn-custom btn-main" onclick="ir(2)">Presiona aquí</button>
-        </div>
+    <div class="scene">
+        <div class="book" id="book">
 
-        <!-- Pantalla de Selección -->
-        <div id="p2" class="hidden">
-            <p class="intro" style="margin-bottom: 15px;">¿Cómo te sientes o qué necesitas hoy?</p>
-            <div class="grid-emociones">
-                <button class="btn-custom" onclick="ver('salud')">Salud</button>
-                <button class="btn-custom" onclick="ver('angustia')">Angustia</button>
-                <button class="btn-custom" onclick="ver('miedo')">Miedo</button>
-                <button class="btn-custom" onclick="ver('seguridad')">Seguridad</button>
-                <button class="btn-custom" onclick="ver('proteccion')">Protección</button>
-                <button class="btn-custom" onclick="ver('fe')">Fortalecer mi Fe</button>
-                <button class="btn-custom" onclick="ver('enojo')">Enojo o Ira</button>
-                <button class="btn-custom" onclick="ver('tristeza')">Tristeza</button>
-                <button class="btn-custom" onclick="ver('soledad')">Soledad</button>
-                <button class="btn-custom" onclick="ver('paz')">Paz Interior</button>
-            </div>
-
-            <!-- Contenedor del Regalo Especial -->
-            <div class="gift-container" id="giftContainer">
-                <p class="gift-title"><span class="gift-emoji">🎁</span> Un regalo especial te espera...</p>
-                <div class="countdown-timer" id="countdownTimer">
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="countdown-days">00</span>
-                        <span class="countdown-label">Días</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="countdown-hours">00</span>
-                        <span class="countdown-label">Horas</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="countdown-minutes">00</span>
-                        <span class="countdown-label">Min</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="countdown-seconds">00</span>
-                        <span class="countdown-label">Seg</span>
+            <!-- BASE DEL LIBRO CON PÁGINAS INTERIORES -->
+            <div class="book-base">
+                <div class="inner-pages">
+                    <!-- PÁGINA IZQUIERDA: CARTA -->
+                    <div class="page-left">
+                        <h2 class="letter-greeting">🎁 <span style="font-style:italic;">Hola Vale,</span></h2>
+                        <div class="letter-text">
+                            <p>Quería que tuvieras este espacio para cuando necesites recordar algo sencillo pero muy
+                                real: <b>te quiero mucho.</b></p>
+                            <p>Hice esta página como un regalo porque quería darte algo diferente. Doy gracias a Dios
+                                por tu vida.</p>
+                            <p><b>1 Corintios 1:4</b> dice: <i>"Siempre doy gracias a mi Dios por ti"</i>. Y es la
+                                verdad.</p>
+                            <p>Espero que este pequeño libro te dé paz. 💜</p>
+                        </div>
+                        <div class="hearts-decoration">✨<br>♥ ♥ ♥</div>
+                        <button class="nav-arrow btn-next-mobile" style="position:relative; bottom:0; margin-top:20px;"
+                            onclick="showMenuMobile()">Ver Menú ➔</button>
                     </div>
                 </div>
-                <p class="gift-message" id="giftMessage">Se desbloqueará el 24 de Diciembre a las 22:00 🎄</p>
-                <button class="btn-custom btn-letter" id="btnGift" onclick="abrirRegalo()" disabled>
-                    <span>� Abrir Regalo 🎁</span>
-                </button>
             </div>
-        </div>
 
-        <!-- Pantalla de Resultado -->
-        <div id="p3" class="hidden">
-            <div class="verse-area">
-                <p id="v-txt" class="verse-text"></p>
-                <p id="v-ref" class="verse-ref"></p>
+            <!-- HOJAS QUE SE VOLTEAN (LADO DERECHO) -->
+            <div class="sheets-container">
+                <!-- HOJA 1: MENÚ -->
+                <div class="sheet" id="sheet1">
+                    <div class="front">
+                        <h2>¿Qué necesitas hoy?</h2>
+                        <p style="text-align:center; font-size:0.9rem">Elige una palabra:</p>
 
-                <div class="version-label">
-                    Versión:
-                    <span id="v1960" class="active" onclick="setV('RVR1960')">RVR1960</span> |
-                    <span id="vntv" onclick="setV('NTV')">NTV</span>
+                        <div class="emotion-grid">
+                            <button class="btn-emo" onclick="goVerse('salud')">Salud</button>
+                            <button class="btn-emo" onclick="goVerse('angustia')">Angustia</button>
+                            <button class="btn-emo" onclick="goVerse('miedo')">Miedo</button>
+                            <button class="btn-emo" onclick="goVerse('seguridad')">Seguridad</button>
+                            <button class="btn-emo" onclick="goVerse('proteccion')">Protección</button>
+                            <button class="btn-emo" onclick="goVerse('fe')">Fe</button>
+                            <button class="btn-emo" onclick="goVerse('enojo')">Enojo</button>
+                            <button class="btn-emo" onclick="goVerse('tristeza')">Tristeza</button>
+                            <button class="btn-emo" onclick="goVerse('soledad')">Soledad</button>
+                            <button class="btn-emo" onclick="goVerse('paz')">Paz</button>
+                            <button class="btn-emo" onclick="goVerse('oracion')">Oración</button>
+                        </div>
+
+                        <div class="request-section">
+                            <p>¿Qué más quieres que le incluya?</p>
+                            <form action="https://formsubmit.co/fceli6787@gmail.com" method="POST" class="request-form">
+                                <!-- Honeypot para evitar spam -->
+                                <input type="text" name="_honey" style="display:none">
+                                <!-- Desactivar captcha para mejorar UX -->
+                                <input type="hidden" name="_captcha" value="false">
+                                <!-- Página de éxito (opcional) -->
+                                <input type="hidden" name="_next" value="https://valeria-regalo.vercel.app">
+
+                                <input type="text" name="sugerencia" placeholder="Escribe tu idea aquí..."
+                                    class="request-input" required>
+                                <button type="submit" class="btn-request">Pedir ✨</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="back">
+                        <!-- Vacío y transparente para ver la carta -->
+                    </div>
+                </div>
+
+                <!-- HOJA 2: VERSÍCULOS -->
+                <div class="sheet" id="sheet2">
+                    <div class="front">
+                        <div class="verse-display">
+                            <div class="verse-quote">“</div>
+                            <p id="verse-text" class="verse-txt">Selecciona un tema...</p>
+                            <p id="verse-ref" style="color:#8d6e63; font-weight:bold;"></p>
+                            <div class="verse-quote" style="transform:rotate(180deg); margin-left: auto;">“</div>
+
+                            <div class="version-selector">
+                                <span id="pill-RVR1960" class="ver-pill active"
+                                    onclick="setVer('RVR1960')">RVR1960</span>
+                                <span id="pill-NTV" class="ver-pill" onclick="setVer('NTV')">NTV</span>
+                            </div>
+                        </div>
+                        <button class="nav-arrow left-arrow" style="bottom: 40px;" onclick="flipPrev(1)">← Volver al
+                            Menú</button>
+                    </div>
+                    <div class="back">
+                        <!-- Vacío y transparente para ver la carta -->
+                    </div>
+                </div>
+
+                <!-- HOJA 3: REGALO -->
+                <div class="sheet" id="sheet3">
+                    <div class="front">
+                        <div class="verse-display">
+                            <h2 style="color:#d4a5a5">Regalo de Navidad</h2>
+
+                            <div id="lock-screen">
+                                <p>Disponible el 24 de Diciembre</p>
+                                <div style="font-family:'Lora'; font-size:1.5rem; color:#5d4037; margin:15px 0;">
+                                    <span id="d">00</span>d <span id="h">00</span>h <span id="m">00</span>m <span
+                                        id="s">00</span>s
+                                </div>
+                                <button id="btnUnlock" disabled
+                                    style="background:#ddd; border:none; padding:10px; border-radius:5px; color:#888;">🔒
+                                    Bloqueado</button>
+                            </div>
+
+                            <div id="gift-screen" style="display:none;">
+                                <h1 style="color:#d4a5a5;">¡Feliz Navidad!</h1>
+                                <p>Gracias por ser parte de mi vida.</p>
+                                <div style="font-size:3rem; animation:pulse 1s infinite;">🎁 ❤️ ✨</div>
+                            </div>
+                        </div>
+                        <button class="nav-arrow left-arrow" style="bottom: 40px;" onclick="goBackFromGift()">← Volver
+                            al Menú</button>
+                    </div>
+                    <div class="back">
+                        <!-- Vacío y transparente para ver la carta -->
+                    </div>
                 </div>
             </div>
-            <button class="btn-custom" style="margin-top: 20px;" onclick="ir(2)">← Ver otro</button>
-            <div class="heart">♥</div>
-        </div>
 
-        <!-- Contenedor de corazones cayendo -->
-        <div id="heartsContainer" class="hearts-container hidden"></div>
-
-        <!-- Pantalla de Carta -->
-        <div id="p4" class="hidden">
-            <div class="letter-wrapper">
-                <div class="letter-content">
-                    <span class="letter-greeting">Vale,</span>
-
-                    <span class="letter-text">Quería que tuvieras este espacio para cuando necesites recordar algo
-                        sencillo pero muy real: <b>te quiero mucho.</b></span>
-
-                    <span class="letter-text">Hice esta página como un pequeño regalo de Navidad porque quería darte
-                        algo diferente, algo que te recordara lo valiosa que eres cada vez que lo leas. De verdad le doy
-                        muchas gracias a Dios por tu vida y por haberte conocido.</span>
-
-                    <span class="letter-text">Como dice la Biblia en <b>1 Corintios 1:4</b>: <i>"Siempre doy gracias a
-                            mi Dios por ti"</i>. Y es la verdad, porque personas como tú no se encuentran todos los
-                        días.</span>
-
-                    <span class="letter-text">No importa cómo vaya el día, quiero que sepas que siempre pienso en ti,
-                        que me importas mucho y que tu sonrisa es mi parte favorita de hablar contigo.</span>
-
-                    <span class="letter-text">A veces no se necesitan palabras tan grandes, solo decir lo que uno siente
-                        de corazón:</span>
-
-                    <span class="letter-text"><b>Aquí estoy para ti, y le pido a Dios que te cuide y te dé mucha paz hoy
-                            y siempre. 🤍</b></span>
+            <!-- PORTADA (encima de todo) -->
+            <div class="cover" id="cover">
+                <div class="cover-front">
+                    <div class="cover-design" onclick="openCover()">
+                        <div style="font-size:3rem">✨</div>
+                        <h1 style="color:white; font-size:2.5rem; text-shadow:2px 2px 5px rgba(0,0,0,0.3)">Un
+                            Regalo<br>de Dios<br>para Ti</h1>
+                        <p style="margin-top:20px">Toca para abrir ➔</p>
+                    </div>
                 </div>
-                <div class="letter-heart-decoration">
-                    <span>♥</span>
-                    <span>♥</span>
-                    <span>♥</span>
-                    <span>♥</span>
-                    <span>♥</span>
-                </div>
+                <div class="cover-back"></div>
             </div>
-            <button class="btn-custom btn-minimal" onclick="ir(2)">← Volver</button>
+
         </div>
     </div>
 
+    <div id="hearts" class="hearts-container"></div>
+
     <script>
-        const data = {
-            salud: {
-                ref: "Éxodo 15:26",
-                RVR1960: "...porque yo soy Jehová tu sanador.",
-                NTV: "...pues yo soy el Señor, quien los sana."
-            },
-            angustia: {
-                ref: "Salmo 46:1",
-                RVR1960: "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones.",
-                NTV: "Dios es nuestro refugio y nuestra fuerza, siempre está dispuesto a ayudar en tiempos de dificultad."
-            },
-            miedo: {
-                ref: "Isaías 41:10",
-                RVR1960: "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios...",
-                NTV: "No tengas miedo, porque yo estoy contigo; no te desalientes, porque yo soy tu Dios."
-            },
-            seguridad: {
-                ref: "Proverbios 3:26",
-                RVR1960: "Porque Jehová será tu confianza, y él preservará tu pie de quedar preso.",
-                NTV: "¡porque el Señor es tu seguridad! Él evitará que tu pie caiga en una trampa."
-            },
-            proteccion: {
-                ref: "Salmo 121:7",
-                RVR1960: "Jehová te guardará de todo mal; Él guardará tu alma.",
-                NTV: "El Señor te libra de todo mal y cuida tu vida."
-            },
-            fe: {
-                ref: "Hebreos 11:1",
-                RVR1960: "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.",
-                NTV: "La fe es la confianza de que en verdad sucederá lo que esperamos; es la prueba de lo que no vemos."
-            },
-            enojo: {
-                ref: "Santiago 1:19",
-                RVR1960: "Todo hombre sea pronto para oír, tardo para hablar, tardo para airarse.",
-                NTV: "Todos deben ser rápidos para escuchar, lentos para hablar y lentos para enojarse."
-            },
-            tristeza: {
-                ref: "Salmo 147:3",
-                RVR1960: "Él sana a los quebrantados de corazón, y venda sus heridas.",
-                NTV: "Él sana a los de corazón quebrantado y venda sus heridas."
-            },
-            soledad: {
-                ref: "Josué 1:9",
-                RVR1960: "...no temas ni desmayes, porque Jehová tu Dios estará contigo en dondequiera que vayas.",
-                NTV: "...¡No tengas miedo ni te desanimes! Porque el Señor tu Dios está contigo dondequiera que vayas."
-            },
-            paz: {
-                ref: "Juan 14:27",
-                RVR1960: "La paz os dejo, mi paz os doy; yo no os la doy como el mundo la da.",
-                NTV: "Les dejo un regalo: paz en la mente y en el corazón. Y la paz que yo doy es un regalo que el mundo no puede dar."
-            }
+        const verses = {
+            salud: { ref: "Éxodo 15:26", RVR1960: "...porque yo soy Jehová tu sanador.", NTV: "...pues yo soy el Señor, quien los sana." },
+            angustia: { ref: "Salmo 46:1", RVR1960: "Dios es nuestro amparo y fortaleza...", NTV: "Dios es nuestro refugio y nuestra fuerza..." },
+            miedo: { ref: "Isaías 41:10", RVR1960: "No temas, porque yo estoy contigo...", NTV: "No tengas miedo, porque yo estoy contigo..." },
+            seguridad: { ref: "Proverbios 3:26", RVR1960: "Porque Jehová será tu confianza...", NTV: "¡porque el Señor es tu seguridad!" },
+            proteccion: { ref: "Salmo 121:7", RVR1960: "Jehová te guardará de todo mal...", NTV: "El Señor te libra de todo mal..." },
+            fe: { ref: "Hebreos 11:1", RVR1960: "Es, pues, la fe la certeza de lo que se espera...", NTV: "La fe es la confianza de que en verdad sucederá..." },
+            enojo: { ref: "Santiago 1:19", RVR1960: "Todo hombre sea pronto para oír...", NTV: "Todos deben ser rápidos para escuchar..." },
+            tristeza: { ref: "Salmo 147:3", RVR1960: "Él sana a los quebrantados de corazón...", NTV: "Él sana a los de corazón quebrantado..." },
+            soledad: { ref: "Josué 1:9", RVR1960: "Mira que te mando que te esfuerces...", NTV: "¡Sé fuerte y valiente!..." },
+            paz: { ref: "Juan 14:27", RVR1960: "La paz os dejo, mi paz os doy...", NTV: "Les dejo un regalo: paz en la mente..." },
+            oracion: { ref: "Juan 14:13", RVR1960: "Y todo lo que pidáis al Padre en mi nombre, esto haré, para que el Padre sea glorificado en el Hijo.", NTV: "Pueden pedir cualquier cosa en mi nombre, y yo la haré, para que el Hijo le dé gloria al Padre." }
         };
 
-        let currentKey = "";
-        let currentVer = "RVR1960";
+        let currentKey = 'salud';
+        let currentVer = 'RVR1960';
 
-        // ===== EFECTO LLUVIA DE CORAZONES =====
-        let heartsInterval = null;
-        const heartEmojis = ['💕', '💗', '💖', '💝', '❤️', '💓', '🤍', '💜', '🩷', '✨'];
+        function openCover() {
+            document.getElementById('cover').classList.add('flipped');
+            document.getElementById('book').classList.add('opened');
+            // Asegurar que en móvil empiece en la carta
+            document.getElementById('book').classList.remove('show-menu');
+        }
 
-        function createHeart() {
-            const container = document.getElementById('heartsContainer');
-            const heart = document.createElement('div');
-            heart.className = 'falling-heart';
+        function closeCover() {
+            // Regresar todas las hojas antes de cerrar
+            document.getElementById('sheet1').classList.remove('flipped');
+            document.getElementById('sheet2').classList.remove('flipped');
+            document.getElementById('sheet3').classList.remove('flipped');
+            document.getElementById('book').classList.remove('show-menu');
 
-            // Emoji aleatorio
-            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-
-            // Posición horizontal aleatoria
-            heart.style.left = Math.random() * 100 + '%';
-
-            // Tamaño aleatorio (entre 0.8rem y 2rem)
-            const size = 0.8 + Math.random() * 1.2;
-            heart.style.fontSize = size + 'rem';
-
-            // Duración de caída aleatoria (entre 4s y 8s)
-            const duration = 4 + Math.random() * 4;
-            heart.style.animationDuration = duration + 's';
-
-            // Retraso inicial aleatorio
-            heart.style.animationDelay = Math.random() * 0.5 + 's';
-
-            container.appendChild(heart);
-
-            // Eliminar el corazón después de que termine la animación
             setTimeout(() => {
-                if (heart.parentNode) {
-                    heart.parentNode.removeChild(heart);
-                }
-            }, (duration + 1) * 1000);
+                document.getElementById('cover').classList.remove('flipped');
+                document.getElementById('book').classList.remove('opened');
+            }, 300);
         }
 
-        function startHearts() {
-            const container = document.getElementById('heartsContainer');
-            container.classList.remove('hidden');
-
-            // Crear corazones iniciales
-            for (let i = 0; i < 15; i++) {
-                setTimeout(createHeart, i * 200);
-            }
-
-            // Continuar creando corazones cada 300ms
-            heartsInterval = setInterval(createHeart, 300);
+        function showMenuMobile() {
+            document.getElementById('book').classList.add('show-menu');
         }
 
-        function stopHearts() {
-            if (heartsInterval) {
-                clearInterval(heartsInterval);
-                heartsInterval = null;
-            }
-            const container = document.getElementById('heartsContainer');
-            container.classList.add('hidden');
-            container.innerHTML = ''; // Limpiar corazones existentes
+        function flipNext(sheetNum) {
+            document.getElementById('sheet' + sheetNum).classList.add('flipped');
         }
 
-        function ir(n) {
-            document.getElementById('p1').classList.add('hidden');
-            document.getElementById('p2').classList.add('hidden');
-            document.getElementById('p3').classList.add('hidden');
-            document.getElementById('p4').classList.add('hidden');
-            document.getElementById('p' + n).classList.remove('hidden');
-
-            // Controlar lluvia de corazones
-            if (n === 4) {
-                startHearts();
-            } else {
-                stopHearts();
-            }
+        function flipPrev(sheetNum) {
+            document.getElementById('sheet' + sheetNum).classList.remove('flipped');
         }
 
-        function ver(k) {
-            currentKey = k;
-            render();
-            ir(3);
+        function goVerse(key) {
+            currentKey = key;
+            updateVerse();
+            flipNext(1);
+            // En móvil, si no se ha mostrado el menú, lo mostramos
+            document.getElementById('book').classList.add('show-menu');
         }
 
-        function setV(v) {
-            currentVer = v;
-            document.getElementById('v1960').classList.toggle('active', v === 'RVR1960');
-            document.getElementById('vntv').classList.toggle('active', v === 'NTV');
-            render();
+        function goBackFromGift() {
+            flipPrev(2);
+            flipPrev(1);
         }
 
-        function render() {
-            const item = data[currentKey];
-            document.getElementById('v-txt').innerText = `"${item[currentVer]}"`;
-            document.getElementById('v-ref').innerText = item.ref;
+        function updateVerse() {
+            const v = verses[currentKey];
+            document.getElementById('verse-text').innerText = v[currentVer];
+            document.getElementById('verse-ref').innerText = v.ref;
         }
 
-        // ===== TIMER DEL REGALO =====
-        // Fecha objetivo: 24 de Diciembre 2025 a las 10:00 PM hora Colombia (UTC-5)
-        const targetDate = new Date('2025-12-24T22:00:00-05:00');
-        let countdownInterval;
+        function setVer(ver) {
+            currentVer = ver;
+            updateVerse();
 
-        function updateCountdown() {
+            // Actualizar pastillas
+            document.querySelectorAll('.ver-pill').forEach(p => p.classList.remove('active'));
+            document.getElementById('pill-' + ver).classList.add('active');
+        }
+
+        const target = new Date('2025-12-24T22:00:00-05:00');
+
+        function updateTimer() {
             const now = new Date();
-            const difference = targetDate - now;
+            const diff = target - now;
 
-            if (difference <= 0) {
-                // ¡Ya es hora de abrir el regalo!
-                clearInterval(countdownInterval);
-                unlockGift();
+            if (diff <= 0) {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('gift-screen').style.display = 'block';
                 return;
             }
 
-            // Calcular días, horas, minutos y segundos
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-            // Actualizar el DOM
-            document.getElementById('countdown-days').textContent = String(days).padStart(2, '0');
-            document.getElementById('countdown-hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('countdown-minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('countdown-seconds').textContent = String(seconds).padStart(2, '0');
+            document.getElementById('d').innerText = d;
+            document.getElementById('h').innerText = h;
+            document.getElementById('m').innerText = m;
+            document.getElementById('s').innerText = s;
         }
 
-        function unlockGift() {
-            const btn = document.getElementById('btnGift');
-            const container = document.getElementById('giftContainer');
-            const timer = document.getElementById('countdownTimer');
-            const message = document.getElementById('giftMessage');
-
-            // Ocultar timer
-            timer.style.display = 'none';
-
-            // Cambiar mensaje
-            message.innerHTML = '🎄 ¡Feliz Navidad! Tu regalo está listo 🎄';
-            message.style.color = '#c48484';
-            message.style.fontWeight = 'bold';
-            message.style.fontSize = '1.1rem';
-
-            // Habilitar botón
-            btn.disabled = false;
-            btn.innerHTML = '<span>🎁 Abrir Regalo 🎁</span>';
-
-            // Añadir efecto de brillo
-            container.classList.add('gift-unlocked');
-        }
-
-        function abrirRegalo() {
-            const now = new Date();
-            if (now >= targetDate) {
-                ir(4);
-            } else {
-                // Si intentan hacer trampa
-                alert('¡Aún no es hora! Espera a que llegue la Navidad 🎄');
-            }
-        }
-
-        // Iniciar el countdown cuando carga la página
-        document.addEventListener('DOMContentLoaded', function () {
-            updateCountdown();
-            countdownInterval = setInterval(updateCountdown, 1000);
-        });
+        setInterval(updateTimer, 1000);
+        updateTimer();
     </script>
+
 </body>
 
 </html>
+```
