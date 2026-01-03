@@ -177,6 +177,14 @@
             height: calc(100% - 20px);
             z-index: 5;
             perspective: 2000px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .book.opened .sheets-container {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .sheet {
@@ -203,6 +211,10 @@
             z-index: 13;
         }
 
+        #sheet4 {
+            z-index: 12;
+        }
+
         .front,
         .back {
             position: absolute;
@@ -212,9 +224,17 @@
             height: 100%;
             background-color: var(--paper-color);
             backface-visibility: hidden;
-            padding: 30px;
+            padding: 25px;
             border-radius: 0 8px 8px 0;
             box-shadow: inset 20px 0 30px -15px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            scrollbar-width: none;
+            /* Ocultar scrollbar en Firefox */
+        }
+
+        .front::-webkit-scrollbar {
+            display: none;
+            /* Ocultar scrollbar en Chrome/Safari */
         }
 
         .back {
@@ -428,6 +448,7 @@
             .book.show-menu .sheets-container {
                 z-index: 50;
                 pointer-events: auto;
+                opacity: 1;
             }
 
             .sheet {
@@ -461,10 +482,16 @@
                 z-index: 65;
             }
 
-            #sheet1.flipped~#sheet2.flipped~#sheet3 {
+            #sheet1.flipped~#sheet2.flipped~#sheet3:not(.flipped) {
                 opacity: 1;
                 pointer-events: auto;
                 z-index: 70;
+            }
+
+            #sheet1.flipped~#sheet2.flipped~#sheet3.flipped~#sheet4 {
+                opacity: 1;
+                pointer-events: auto;
+                z-index: 75;
             }
 
             /* No usamos display:none para permitir transiciones suaves */
@@ -610,6 +637,9 @@
                             <button class="btn-emo" onclick="goVerse('soledad')">Soledad</button>
                             <button class="btn-emo" onclick="goVerse('paz')">Paz</button>
                             <button class="btn-emo" onclick="goVerse('oracion')">Oración</button>
+                            <button class="btn-emo"
+                                style="border-color: #ffb3b3; background: #fff5f5; grid-column: span 2; font-weight: bold; color: #d63384;"
+                                onclick="goBirthday()">🎂 Cumpleaños</button>
                         </div>
 
                         <div class="request-section">
@@ -682,6 +712,27 @@
                         </div>
                         <button class="nav-arrow left-arrow" style="bottom: 40px;" onclick="goBackFromGift()">← Volver
                             al Menú</button>
+                    </div>
+                    <div class="back">
+                        <!-- Vacío y transparente para ver la carta -->
+                    </div>
+                </div>
+
+                <!-- HOJA 4: CUMPLEAÑOS -->
+                <div class="sheet" id="sheet4">
+                    <div class="front">
+                        <div class="verse-display" style="text-align: center;">
+                            <h2 id="b-title" style="color:#d63384; font-size: 2rem; margin-bottom: 20px;">Cumpleaños
+                            </h2>
+                            <div style="font-size: 4rem; margin: 20px 0;">🎁</div>
+                            <p id="b-msg"
+                                style="font-family:'Lora'; font-size: 1.3rem; line-height: 1.5; color: #5d4037; padding: 0 20px;">
+                                Cargando mensaje...
+                            </p>
+                            <div style="margin-top: 30px; font-size: 1.5rem;">✨ 💖 ✨</div>
+                        </div>
+                        <button class="nav-arrow left-arrow" style="bottom: 40px;" onclick="goBackFromBirthday()">←
+                            Volver al Menú</button>
                     </div>
                     <div class="back">
                         <!-- Vacío y transparente para ver la carta -->
@@ -770,6 +821,37 @@
             flipPrev(1);
         }
 
+        function goBirthday() {
+            // Navegar a la hoja de cumpleaños
+            flipNext(1);
+            flipNext(2);
+            flipNext(3);
+
+            const now = new Date();
+            // El usuario pidió que se active exactamente el 6/01/2026
+            const isBirthday = (now.getDate() === 6 && now.getMonth() === 0 && now.getFullYear() === 2026);
+
+            const bTitle = document.getElementById('b-title');
+            const bMsg = document.getElementById('b-msg');
+
+            if (isBirthday) {
+                bTitle.innerText = "¡Feliz Cumpleaños! 🎂";
+                bMsg.innerHTML = "Regalo en preparación, la espera valdrá la pena. 💖✨";
+            } else {
+                bTitle.innerText = "Próximamente... ⏳";
+                bMsg.innerText = "Regalo en preparación, la espera valdrá la pena. 😊";
+            }
+
+            // En móvil, asegurar que se vea el menú/hojas
+            document.getElementById('book').classList.add('show-menu');
+        }
+
+        function goBackFromBirthday() {
+            flipPrev(3);
+            flipPrev(2);
+            flipPrev(1);
+        }
+
         function updateVerse() {
             const v = verses[currentKey];
             document.getElementById('verse-text').innerText = v[currentVer];
@@ -815,4 +897,3 @@
 </body>
 
 </html>
-```
