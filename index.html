@@ -369,11 +369,14 @@
         .verse-display {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            /* Cambiado de center para dar espacio */
             align-items: center;
-            height: 100%;
-            padding: 15px;
+            min-height: 100%;
+            padding: 20px 15px 80px 15px;
+            /* Más padding abajo para el botón */
             text-align: center;
+            position: relative;
         }
 
         .verse-card {
@@ -444,11 +447,12 @@
 
         .verse-txt {
             font-family: 'Lora', serif;
-            font-size: 1.6rem !important;
-            /* Más grande e imponente */
+            /* Tamaño dinámico: 1.6rem para cortos, se reduce hasta 1.1rem para largos */
+            font-size: clamp(1.1rem, 5vw, 1.6rem) !important;
             line-height: 1.4 !important;
             color: #3e2723 !important;
-            margin: 0 0 20px 0 !important;
+            margin: 0 !important;
+            padding: 10px 0;
             font-style: italic;
             font-weight: 600;
             position: relative;
@@ -838,9 +842,12 @@
                                     onclick="setVer('RVR1960')">RVR1960</button>
                                 <button id="pill-NTV" class="ver-pill" onclick="setVer('NTV')">NTV</button>
                             </div>
+
+                            <!-- Botón movido aquí dentro para mejor flujo -->
+                            <button class="nav-arrow"
+                                style="position: relative; margin-top: 30px; bottom: auto; left: auto; transform: none;"
+                                onclick="flipPrev(1)">← Volver al Menú</button>
                         </div>
-                        <button class="nav-arrow left-arrow" style="bottom: 40px;" onclick="flipPrev(1)">← Volver al
-                            Menú</button>
                     </div>
                     <div class="back">
                         <!-- Vacío y transparente para ver la carta -->
