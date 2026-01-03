@@ -365,6 +365,163 @@
             background: #c29494;
         }
 
+        /* ===== DISEÑO PREMIUM GLOBAL PARA VERSÍCULOS ===== */
+        .verse-display {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .verse-card {
+            background: #fff;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(212, 165, 165, 0.1) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(214, 51, 132, 0.05) 0, transparent 50%);
+            border-radius: 25px;
+            padding: 45px 30px;
+            position: relative;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.05),
+                inset 0 0 0 2px rgba(212, 165, 165, 0.2);
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: visible;
+            /* Para que las comillas puedan sobresalir un poco */
+        }
+
+        .verse-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(212, 165, 165, 0.15);
+        }
+
+        /* Decoración Floral/Elegante en las esquinas */
+        .verse-card::before,
+        .verse-card::after {
+            content: "✿";
+            position: absolute;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            opacity: 0.4;
+        }
+
+        .verse-card::before {
+            top: 15px;
+            left: 15px;
+        }
+
+        .verse-card::after {
+            bottom: 15px;
+            right: 15px;
+        }
+
+        .verse-quote-big {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 7rem;
+            color: var(--accent-color);
+            opacity: 0.15;
+            position: absolute;
+            line-height: 1;
+            z-index: 0;
+            user-select: none;
+        }
+
+        .q-left {
+            top: -20px;
+            left: -5px;
+        }
+
+        .q-right {
+            bottom: -60px;
+            right: -5px;
+            transform: rotate(180deg);
+        }
+
+        .verse-txt {
+            font-family: 'Lora', serif;
+            font-size: 1.6rem !important;
+            /* Más grande e imponente */
+            line-height: 1.4 !important;
+            color: #3e2723 !important;
+            margin: 0 0 20px 0 !important;
+            font-style: italic;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            text-wrap: balance;
+            animation: fadeIn 0.8s ease;
+        }
+
+        #verse-ref {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.9rem !important;
+            color: var(--cover-light) !important;
+            font-weight: bold !important;
+            margin-top: 15px !important;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            padding: 0 10px;
+        }
+
+        #verse-ref::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        /* Selector de versiones Estilo Apple/Premium */
+        .version-selector {
+            display: flex;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 6px;
+            border-radius: 30px;
+            gap: 8px;
+            margin-top: 35px;
+            width: fit-content;
+            align-self: center;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .ver-pill {
+            padding: 8px 20px;
+            border-radius: 25px;
+            background: transparent;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1rem !important;
+            color: #8d6e63 !important;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ver-pill.active {
+            background: white;
+            color: #d63384 !important;
+            box-shadow: 0 4px 12px rgba(214, 51, 132, 0.15);
+            transform: scale(1.05);
+        }
+
+        .ver-pill:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
         /* ===== ESTILOS MÓVIL REFORZADOS (CORRECTOS) ===== */
         @media (max-width: 768px) {
             :root {
@@ -383,7 +540,6 @@
                 height: var(--book-height);
             }
 
-            /* En móvil centrados y ocupando todo */
             .book-base {
                 height: 100%;
             }
@@ -399,10 +555,8 @@
                 transform-origin: left center;
                 backface-visibility: hidden;
                 pointer-events: auto;
-                /* Forzar que sea clickable */
             }
 
-            /* Portada en móvil */
             .cover {
                 width: 100%;
                 height: 100%;
@@ -416,7 +570,6 @@
                 pointer-events: none !important;
             }
 
-            /* El truco del menú: La carta se voltea y queda detrás */
             .book.show-menu .page-left {
                 transform: rotateY(-180deg);
                 opacity: 0;
@@ -437,12 +590,10 @@
             .book-base {
                 z-index: 30;
                 pointer-events: none;
-                /* La base no clickea, solo sus hijos */
             }
 
             .book.opened .book-base .inner-pages {
                 pointer-events: auto;
-                /* Habilitar clics en la carta */
             }
 
             .book.show-menu .sheets-container {
@@ -456,7 +607,6 @@
                 height: 100%;
                 opacity: 0;
                 pointer-events: none;
-                /* Todo oculto por defecto en móvil */
                 transition: opacity 0.3s;
                 z-index: 1;
             }
@@ -469,7 +619,6 @@
                 z-index: 5;
             }
 
-            /* Lógica de visibilidad móvil para evitar que se pisen botones */
             #sheet1:not(.flipped) {
                 opacity: 1;
                 pointer-events: auto;
@@ -494,18 +643,15 @@
                 z-index: 75;
             }
 
-            /* No usamos display:none para permitir transiciones suaves */
             .sheet.flipped {
                 pointer-events: none;
                 opacity: 0;
             }
 
-            /* Ajuste de botones para que no se pierdan */
             .nav-arrow {
                 width: 80%;
                 left: 10% !important;
                 transform: none !important;
-                /* Corregir centrado en móvil */
                 bottom: 25px;
                 padding: 12px;
                 font-size: 1.1rem;
@@ -526,65 +672,77 @@
                 font-size: 1.1rem;
                 line-height: 1.5;
             }
-
-            /* Estuilos movidos al bloque general */
-
-            /* Versículos más GRANDES y equilibrados para iPhone 11 */
-            .verse-display {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                height: 100%;
-                padding-bottom: 30px;
-            }
-
-            .verse-quote {
-                font-size: 3.5rem !important;
-                color: var(--accent-color) !important;
-                opacity: 0.3;
-                line-height: 0;
-            }
-
-            .verse-txt {
-                font-size: 1.45rem !important;
-                line-height: 1.4 !important;
-                margin: 10px 0;
-                color: var(--text-color);
-            }
-
-            #verse-ref {
-                font-size: 1.1rem !important;
-                margin-bottom: 20px;
-            }
-
-            /* Selector de versiones tipo Pastilla */
-            .version-selector {
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-                margin-top: 15px;
-            }
-
-            .ver-pill {
-                padding: 4px 12px;
-                border-radius: 15px;
-                background: #eee;
-                font-size: 0.85rem !important;
-                color: #777 !important;
-                transition: 0.3s;
-                border: 1px solid transparent;
-            }
-
-            .ver-pill.active {
-                background: var(--accent-color);
-                color: white !important;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
         }
 
         @media (min-width: 769px) {
             .btn-next-mobile {
                 display: none;
+            }
+        }
+
+        /* ===== ANIMACIONES CUMPLEAÑOS ===== */
+        @keyframes pulse-glow {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(60, 179, 113, 0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 4px 25px rgba(60, 179, 113, 0.6);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(60, 179, 113, 0.3);
+            }
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes tada {
+            0% {
+                transform: scale(1);
+            }
+
+            10%,
+            20% {
+                transform: scale(0.9) rotate(-3deg);
+            }
+
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: scale(1.1) rotate(3deg);
+            }
+
+            40%,
+            60%,
+            80% {
+                transform: scale(1.1) rotate(-3deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0);
             }
         }
     </style>
@@ -668,15 +826,17 @@
                 <div class="sheet" id="sheet2">
                     <div class="front">
                         <div class="verse-display">
-                            <div class="verse-quote">“</div>
-                            <p id="verse-text" class="verse-txt">Selecciona un tema...</p>
-                            <p id="verse-ref" style="color:#8d6e63; font-weight:bold;"></p>
-                            <div class="verse-quote" style="transform:rotate(180deg); margin-left: auto;">“</div>
+                            <div class="verse-card" id="verse-card-anim">
+                                <div class="verse-quote-big q-left">“</div>
+                                <p id="verse-text" class="verse-txt">Selecciona un tema...</p>
+                                <span id="verse-ref"></span>
+                                <div class="verse-quote-big q-right">“</div>
+                            </div>
 
                             <div class="version-selector">
-                                <span id="pill-RVR1960" class="ver-pill active"
-                                    onclick="setVer('RVR1960')">RVR1960</span>
-                                <span id="pill-NTV" class="ver-pill" onclick="setVer('NTV')">NTV</span>
+                                <button id="pill-RVR1960" class="ver-pill active"
+                                    onclick="setVer('RVR1960')">RVR1960</button>
+                                <button id="pill-NTV" class="ver-pill" onclick="setVer('NTV')">NTV</button>
                             </div>
                         </div>
                         <button class="nav-arrow left-arrow" style="bottom: 40px;" onclick="flipPrev(1)">← Volver al
@@ -722,14 +882,94 @@
                 <div class="sheet" id="sheet4">
                     <div class="front">
                         <div class="verse-display" style="text-align: center;">
-                            <h2 id="b-title" style="color:#d63384; font-size: 2rem; margin-bottom: 20px;">Cumpleaños
-                            </h2>
-                            <div style="font-size: 4rem; margin: 20px 0;">🎁</div>
-                            <p id="b-msg"
-                                style="font-family:'Lora'; font-size: 1.3rem; line-height: 1.5; color: #5d4037; padding: 0 20px;">
-                                Cargando mensaje...
-                            </p>
-                            <div style="margin-top: 30px; font-size: 1.5rem;">✨ 💖 ✨</div>
+
+                            <!-- PANTALLA DE CUENTA REGRESIVA -->
+                            <div id="birthday-lock-screen">
+                                <h2 style="color:#d63384; font-size: 1.8rem; margin-bottom: 15px;">🎂 Cuenta Regresiva
+                                    🎂</h2>
+                                <div style="font-size: 3.5rem; margin: 15px 0;">🎁</div>
+                                <p style="font-family:'Lora'; font-size: 1.1rem; color: #8d6e63; margin-bottom: 20px;">
+                                    Falta poco para un día muy especial...</p>
+
+                                <!-- CONTADOR -->
+                                <div class="birthday-countdown" style="
+                                    display: flex;
+                                    justify-content: center;
+                                    gap: 10px;
+                                    flex-wrap: wrap;
+                                    margin: 20px 0;
+                                ">
+                                    <div class="countdown-box" style="
+                                        background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+                                        padding: 12px 15px;
+                                        border-radius: 12px;
+                                        min-width: 60px;
+                                        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+                                    ">
+                                        <span id="b-days"
+                                            style="font-family: 'Gochi Hand', cursive; font-size: 2rem; color: white; display: block;">00</span>
+                                        <span
+                                            style="font-size: 0.75rem; color: rgba(255,255,255,0.9); text-transform: uppercase;">Días</span>
+                                    </div>
+                                    <div class="countdown-box" style="
+                                        background: linear-gradient(135deg, #dda0dd, #da70d6);
+                                        padding: 12px 15px;
+                                        border-radius: 12px;
+                                        min-width: 60px;
+                                        box-shadow: 0 4px 15px rgba(218, 112, 214, 0.3);
+                                    ">
+                                        <span id="b-hours"
+                                            style="font-family: 'Gochi Hand', cursive; font-size: 2rem; color: white; display: block;">00</span>
+                                        <span
+                                            style="font-size: 0.75rem; color: rgba(255,255,255,0.9); text-transform: uppercase;">Horas</span>
+                                    </div>
+                                    <div class="countdown-box" style="
+                                        background: linear-gradient(135deg, #87ceeb, #6495ed);
+                                        padding: 12px 15px;
+                                        border-radius: 12px;
+                                        min-width: 60px;
+                                        box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3);
+                                    ">
+                                        <span id="b-mins"
+                                            style="font-family: 'Gochi Hand', cursive; font-size: 2rem; color: white; display: block;">00</span>
+                                        <span
+                                            style="font-size: 0.75rem; color: rgba(255,255,255,0.9); text-transform: uppercase;">Min</span>
+                                    </div>
+                                    <div class="countdown-box" style="
+                                        background: linear-gradient(135deg, #98fb98, #3cb371);
+                                        padding: 12px 15px;
+                                        border-radius: 12px;
+                                        min-width: 60px;
+                                        box-shadow: 0 4px 15px rgba(60, 179, 113, 0.3);
+                                        animation: pulse-glow 1s ease-in-out infinite;
+                                    ">
+                                        <span id="b-secs"
+                                            style="font-family: 'Gochi Hand', cursive; font-size: 2rem; color: white; display: block;">00</span>
+                                        <span
+                                            style="font-size: 0.75rem; color: rgba(255,255,255,0.9); text-transform: uppercase;">Seg</span>
+                                    </div>
+                                </div>
+
+                                <p
+                                    style="font-family:'Dancing Script', cursive; font-size: 1.3rem; color: #d63384; margin-top: 15px;">
+                                    6 de Enero 2026 ✨</p>
+                            </div>
+
+                            <!-- PANTALLA DE CUMPLEAÑOS (oculta hasta la fecha) -->
+                            <div id="birthday-reveal-screen" style="display: none;">
+                                <h2
+                                    style="color:#d63384; font-size: 2.2rem; margin-bottom: 10px; animation: bounce-in 0.8s ease;">
+                                    🎉 ¡Feliz Cumpleaños! 🎉</h2>
+                                <div style="font-size: 4rem; margin: 20px 0; animation: tada 1s ease infinite;">🎂🎁🎈
+                                </div>
+                                <p
+                                    style="font-family:'Lora'; font-size: 1.2rem; line-height: 1.6; color: #5d4037; padding: 0 15px;">
+                                    ¡Hoy es tu día especial! 💖<br>
+                                    Regalo en preparación, la espera valdrá la pena. ✨
+                                </p>
+                                <div style="margin-top: 25px; font-size: 1.8rem;">✨ 💖 🌟 💖 ✨</div>
+                            </div>
+
                         </div>
                         <button class="nav-arrow left-arrow" style="bottom: 40px;" onclick="goBackFromBirthday()">←
                             Volver al Menú</button>
@@ -827,20 +1067,8 @@
             flipNext(2);
             flipNext(3);
 
-            const now = new Date();
-            // El usuario pidió que se active exactamente el 6/01/2026
-            const isBirthday = (now.getDate() === 6 && now.getMonth() === 0 && now.getFullYear() === 2026);
-
-            const bTitle = document.getElementById('b-title');
-            const bMsg = document.getElementById('b-msg');
-
-            if (isBirthday) {
-                bTitle.innerText = "¡Feliz Cumpleaños! 🎂";
-                bMsg.innerHTML = "Regalo en preparación, la espera valdrá la pena. 💖✨";
-            } else {
-                bTitle.innerText = "Próximamente... ⏳";
-                bMsg.innerText = "Regalo en preparación, la espera valdrá la pena. 😊";
-            }
+            // Actualizar el contador inmediatamente al entrar
+            updateBirthdayCountdown();
 
             // En móvil, asegurar que se vea el menú/hojas
             document.getElementById('book').classList.add('show-menu');
@@ -854,8 +1082,20 @@
 
         function updateVerse() {
             const v = verses[currentKey];
-            document.getElementById('verse-text').innerText = v[currentVer];
-            document.getElementById('verse-ref').innerText = v.ref;
+            const textEl = document.getElementById('verse-text');
+            const refEl = document.getElementById('verse-ref');
+            const cardEl = document.getElementById('verse-card-anim');
+
+            // Pequeña animación de cambio
+            cardEl.style.opacity = 0;
+            cardEl.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                textEl.innerText = v[currentVer];
+                refEl.innerText = v.ref;
+                cardEl.style.opacity = 1;
+                cardEl.style.transform = 'scale(1)';
+            }, 200);
         }
 
         function setVer(ver) {
@@ -892,6 +1132,40 @@
 
         setInterval(updateTimer, 1000);
         updateTimer();
+
+        // ===== CONTADOR DE CUMPLEAÑOS (6 de Enero 2026) =====
+        const birthdayTarget = new Date('2026-01-06T00:00:00-05:00');
+
+        function updateBirthdayCountdown() {
+            const now = new Date();
+            const diff = birthdayTarget - now;
+
+            const lockScreen = document.getElementById('birthday-lock-screen');
+            const revealScreen = document.getElementById('birthday-reveal-screen');
+
+            // Si ya pasó la fecha objetivo o es el día del cumpleaños
+            if (diff <= 0) {
+                lockScreen.style.display = 'none';
+                revealScreen.style.display = 'block';
+                return;
+            }
+
+            // Calcular tiempo restante
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Actualizar los elementos del contador
+            document.getElementById('b-days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('b-hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('b-mins').innerText = mins.toString().padStart(2, '0');
+            document.getElementById('b-secs').innerText = secs.toString().padStart(2, '0');
+        }
+
+        // Iniciar el contador de cumpleaños
+        setInterval(updateBirthdayCountdown, 1000);
+        updateBirthdayCountdown();
     </script>
 
 </body>
