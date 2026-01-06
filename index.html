@@ -1075,7 +1075,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: transparent;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1083,7 +1083,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 1s ease;
-            backdrop-filter: blur(5px);
+            /* backdrop-filter removed to see emojis clearly */
         }
 
         .final-message-overlay.visible {
@@ -1093,11 +1093,11 @@
 
         .final-card {
             background: white;
-            padding: 40px;
+            padding: 25px 30px;
             border-radius: 30px;
             text-align: center;
             max-width: 90%;
-            width: 500px;
+            width: 420px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             border: 4px solid var(--accent-color);
             transform: scale(0.8);
@@ -1110,18 +1110,18 @@
 
         .final-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 4rem;
+            font-size: 3.2rem;
             color: #d63384;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .final-text {
             font-family: 'Lora', serif;
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             color: #5d4037;
-            margin-bottom: 30px;
-            line-height: 1.6;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
         .btn-close-final {
@@ -1397,14 +1397,19 @@
         <div class="final-card">
             <h1 class="final-title">¡Feliz Cumpleaños!</h1>
             <p class="final-text">
-                Gracias por escuchar este pequeño detalle.<br>
-                Eres alguien muy especial para mí<br>
-                y doy gracias a Dios por tu vida.<br>
-                ¡Te quiero muchísimo! 💖
+                Gracias por escuchar este pequeño detalle.<br><br>
+
+                Eres alguien muy especial para mí y doy gracias a Dios por tu vida.<br>
+                Me importa mucho lo que se ha ido dando entre nosotros,<br>
+                y yo sí me sentiría tranquilo dando un paso contigo,<br>
+                con calma, bien hecho y sin afanes.<br><br>
+
+                Quería saber cómo te sientes tú con eso 🤍
             </p>
             <button class="btn-close-final" onclick="closeFinalMessage()">Gracias ✨</button>
         </div>
     </div>
+
 
     <div id="hearts" class="hearts-container"></div>
 
@@ -1479,7 +1484,7 @@
 
             const now = new Date();
             // ACTIVACIÓN: Se desbloquea desde el 6 de Enero de 2026 en adelante
-            const targetDate = new Date(2026, 0, 6); // 6 Enero 2026
+            const targetDate = new Date(2026, 0, 5); // 6 Enero 2026
             const isBirthday = now >= targetDate;
 
             const bTitle = document.getElementById('b-title');
@@ -1490,7 +1495,7 @@
 
             if (isBirthday) {
                 bTitle.innerText = "Feliz cumpleaños 🎂";
-                bMsg.innerHTML = '<span class="bday-subtitle-highlight">Yo escribí esta canción y dejé que la música hablara por mí 🤍</span>';
+                bMsg.innerHTML = '<span class="bday-subtitle-highlight">Yo escribí esta canción y dejé que la IA la cantara por mí 🤍</span>';
                 songSection.style.display = 'flex';
                 giftIcon.style.display = 'none';
                 decoration.style.marginTop = '5px';
