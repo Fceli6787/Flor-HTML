@@ -1410,6 +1410,15 @@
         </div>
     </div>
 
+    <!-- SEGUNDO POPUP: IMAGEN ESPECIAL -->
+    <div id="special-image-popup" class="final-message-overlay">
+        <div class="final-card" style="padding: 15px; width: auto; max-width: 85vw; border-color: #d63384;">
+            <img src="parati.png" alt="Para ti"
+                style="width: 100%; max-height: 70vh; border-radius: 15px; object-fit: contain; display: block; margin: 0 auto 15px auto;">
+            <button class="btn-close-final" onclick="closeSpecialPopup()">Cerrar 💜</button>
+        </div>
+    </div>
+
 
     <div id="hearts" class="hearts-container"></div>
 
@@ -1484,7 +1493,7 @@
 
             const now = new Date();
             // ACTIVACIÓN: Se desbloquea desde el 6 de Enero de 2026 en adelante
-            const targetDate = new Date(2026, 0, 6); // 6 Enero 2026
+            const targetDate = new Date(2026, 0, 5); // 6 Enero 2026
             const isBirthday = now >= targetDate;
 
             const bTitle = document.getElementById('b-title');
@@ -1676,6 +1685,14 @@
 
         function closeFinalMessage() {
             document.getElementById('final-message').classList.remove('visible');
+            // Mostrar el segundo popup con la imagen
+            setTimeout(() => {
+                document.getElementById('special-image-popup').classList.add('visible');
+            }, 500);
+        }
+
+        function closeSpecialPopup() {
+            document.getElementById('special-image-popup').classList.remove('visible');
         }
 
         setInterval(updateTimer, 1000);
