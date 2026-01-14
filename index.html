@@ -1447,6 +1447,17 @@
                                         ...
                                     </p>
                                 </div>
+
+                                <div id="msg-song-container" style="margin-top: 25px; display: none;">
+                                    <p id="msg-song-label"
+                                        style="font-size: 0.9rem; margin-bottom: 5px; color: #d4a5a5;">🎵 Oye esta
+                                        canción:</p>
+                                    <a id="msg-song-btn" href="#" target="_blank"
+                                        style="text-decoration: none; background: #5d4037; color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; display: inline-block; transition: 0.3s;">
+                                        ▶ Escuchar
+                                    </a>
+                                </div>
+
                                 <span class="v-quote v-quote-br" style="color:#d4a5a5;">“</span>
                             </div>
 
@@ -1787,19 +1798,25 @@
                 preText: "Vale, quiero que cuando todo se sienta pesado recuerdes esto 🤍",
                 verseText: "“Tú guardarás en completa paz a aquel cuyo pensamiento en ti persevera.”",
                 verseRef: "— Isaías 26:3",
-                closeText: "Dios cuida tu corazón, vida, incluso cuando no dices nada."
+                closeText: "Dios cuida tu corazón, vida, incluso cuando no dices nada.",
+                songUrl: "https://www.youtube.com/watch?v=BGDOdMpTV2o",
+                songLabel: "🎵 Oye esta canción:"
             },
             amor: {
                 preText: "Amor, esto no es para apurarte ni exigirte nada, solo para que lo sepas 🤍",
                 verseText: "“Las muchas aguas no podrán apagar el amor.”",
                 verseRef: "— Cantares 8:7",
-                closeText: "Hay cosas que nacen despacio, pero son reales… y bonitas."
+                closeText: "Hay cosas que nacen despacio, pero son reales… y bonitas.",
+                songUrl: "https://www.youtube.com/watch?v=YlameUwe3S4",
+                songLabel: "Te dedico esta canción 🤍"
             },
             ansiedad: {
                 preText: "Vida, si hoy tu mente no para, respira un momento conmigo 🌿",
                 verseText: "“Por nada estéis afanosos… y la paz de Dios guardará vuestros corazones.”",
                 verseRef: "— Filipenses 4:6-7",
-                closeText: "No tienes que poder con todo hoy, amor. Mañana también cuenta."
+                closeText: "No tienes que poder con todo hoy, amor. Mañana también cuenta.",
+                songUrl: "https://www.youtube.com/watch?v=HhYFcONZj-k",
+                songLabel: "🎵 Oye esta canción:"
             }
         };
 
@@ -1819,6 +1836,23 @@
                 document.getElementById('msg-text').innerText = data.verseText;
                 document.getElementById('msg-ref').innerText = data.verseRef;
                 document.getElementById('msg-close').innerText = data.closeText;
+
+                // Configurar botón de canción
+                const songContainer = document.getElementById('msg-song-container');
+                const songBtn = document.getElementById('msg-song-btn');
+                const songLabel = document.getElementById('msg-song-label');
+
+                if (data.songUrl && data.songUrl !== "") {
+                    songContainer.style.display = 'block';
+                    songBtn.href = data.songUrl;
+                    if (data.songLabel) {
+                        songLabel.innerText = data.songLabel;
+                    } else {
+                        songLabel.innerText = "🎵 Oye esta canción:";
+                    }
+                } else {
+                    songContainer.style.display = 'none';
+                }
 
                 flipNext(5); // Revelar hoja 6
             }
